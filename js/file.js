@@ -226,8 +226,8 @@ saveBtn.onclick = function(){
     stateMachine(states.STUDENT_REGISTERED);
     wordNumber.innerHTML = 0;
     infinitiveAnswer.innerHTML = '';
-    pastSimpleAnswer.innerHTML = '';
-    pastParticipleAnswer.innerHTML = '';
+    pastSimpleAnswer.value = '';
+    pastParticipleAnswer.value = '';
     resetStudentScore();
     updateStudentScore();
 }
@@ -434,8 +434,8 @@ function shuffleVerb(currentListOfVerbs, currentWordCount){
 
 function showInfinitive(theInfinitive, thePastSimple, thePastParticiple, theListOfVerbs, theIndex){
     theInfinitive.innerHTML = theListOfVerbs[theIndex].infinitive;
-    thePastSimple.innerHTML = '';
-    thePastParticiple.innerHTML = '';
+    thePastSimple.value = '';
+    thePastParticiple.value = '';
 }
 
 function showPast(theInfinitive, thePastSimple, thePastParticiple, theListOfVerbs, theIndex){
