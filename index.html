@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="css/style.css">
         <body>
             <div class="container" type="title" id="title-box">
-                <h1>Irregular Verbs Quiz</h1>
+                <h1>Irregular Verbs Quiz - Interactive</h1>
             </div>
 
             <!-- Buttons for creating or loading students -->
@@ -42,8 +42,8 @@
                     <label>Word number: </label><label id="word-no"> 0</label>
 
                     <ul><label>Infinitive:</label> <label id="answer-infinitive"></label></ul>
-                    <ul><label>Past Simple:</label> <label id="answer-past-simple"></label></ul>
-                    <ul><label>Past Participle:</label> <label id="answer-past-participle"></label></ul>
+                    <ul><label>Past Simple:</label> <input type="text" id="answer-past-simple"></input></ul>
+                    <ul><label>Past Participle:</label> <input type="text" id="answer-past-participle"></input></ul>
         
                     <label>Correct Answers:</label> <label id="correct-pct">0.00</label><label>%</label>
                 </div>
@@ -56,7 +56,7 @@
 
             <div class="container" id="final-buttons">
                 <div class="container" id="results">
-                    <button class="btn-yellow" id="btn-show-answer">SHOW ANSWER</button>
+                    <button class="btn-yellow" id="btn-show-answer">CHECK ANSWER</button>
                     <button class="btn-green" id="btn-correct">CORRECT</button>
                     <button class="btn-red" id="btn-incorrect">INCORRECT</button>
                 </div>

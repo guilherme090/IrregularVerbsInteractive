@@ -125,8 +125,7 @@ startBtn.onclick = function(){
     
 }
 
-let correctBtn = document.querySelector('#btn-correct');
-correctBtn.onclick = function(){
+function correctWord(){
     aluno.words_right ++;
     aluno.words_total ++;
     console.log(aluno);
@@ -146,8 +145,7 @@ correctBtn.onclick = function(){
     }
 };
 
-let incorrectBtn = document.querySelector('#btn-incorrect');
-incorrectBtn.onclick = function(){
+function incorrectWord(){
     aluno.words_total ++;
     console.log(aluno);
     updateStudentScore();
@@ -169,7 +167,13 @@ incorrectBtn.onclick = function(){
 let showAnsBtn = document.querySelector('#btn-show-answer');
 showAnsBtn.onclick = function(){
     // Signal to the state machine that answer was shown
-    stateMachine(states.QUIZ_STARTED_ANSWER_SHOWN);
+    if(pastSimpleAnswer.value === listOfVerbs[shuffledIndex].pastSimple &&
+       pastParticipleAnswer.value === listOfVerbs[shuffledIndex].pastParticiple ){
+        correctWord();
+    }else{
+        incorrectWord();
+    }
+    stateMachine(states.QUIZ_STARTED_NO_ANSWER);
 };
 
 /* 
@@ -262,10 +266,10 @@ function stateMachine(currentState){
             startBtn.style.backgroundColor="#555500";
             showAnsBtn.disabled = true;
             showAnsBtn.style.backgroundColor="#555500";
-            correctBtn.disabled = true;
-            correctBtn.style.backgroundColor="#005500";
-            incorrectBtn.disabled = true;
-            incorrectBtn.style.backgroundColor="#550000";
+            // correctBtn.disabled = true;
+            // correctBtn.style.backgroundColor="#005500";
+            // incorrectBtn.disabled = true;
+            // incorrectBtn.style.backgroundColor="#550000";
             saveBtn.disabled = true;
             saveBtn.style.backgroundColor="#555500";
             break;
@@ -279,10 +283,10 @@ function stateMachine(currentState){
             startBtn.style.backgroundColor="#DDDD00";
             showAnsBtn.disabled = true;
             showAnsBtn.style.backgroundColor="#555500";
-            correctBtn.disabled = true;
-            correctBtn.style.backgroundColor="#005500";
-            incorrectBtn.disabled = true;
-            incorrectBtn.style.backgroundColor="#550000";
+            // correctBtn.disabled = true;
+            // correctBtn.style.backgroundColor="#005500";
+            // incorrectBtn.disabled = true;
+            // incorrectBtn.style.backgroundColor="#550000";
             saveBtn.disabled = true;
             saveBtn.style.backgroundColor="#555500";
             break;
@@ -299,10 +303,10 @@ function stateMachine(currentState){
             startBtn.style.backgroundColor="#555500";
             showAnsBtn.disabled = false;
             showAnsBtn.style.backgroundColor="#DDDD00";
-            correctBtn.disabled = true;
-            correctBtn.style.backgroundColor="#005500";
-            incorrectBtn.disabled = true;
-            incorrectBtn.style.backgroundColor="#550000";
+            // correctBtn.disabled = true;
+            // correctBtn.style.backgroundColor="#005500";
+            // incorrectBtn.disabled = true;
+            // incorrectBtn.style.backgroundColor="#550000";
             saveBtn.disabled = false;
             saveBtn.style.backgroundColor="#DDDD00";
             break;
@@ -317,10 +321,10 @@ function stateMachine(currentState){
             startBtn.style.backgroundColor="#555500";
             showAnsBtn.disabled = true;
             showAnsBtn.style.backgroundColor="#555500";
-            correctBtn.disabled = false;
-            correctBtn.style.backgroundColor="#00DD00";
-            incorrectBtn.disabled = false;
-            incorrectBtn.style.backgroundColor="#DD0000";
+            // correctBtn.disabled = false;
+            // correctBtn.style.backgroundColor="#00DD00";
+            // incorrectBtn.disabled = false;
+            // incorrectBtn.style.backgroundColor="#DD0000";
             saveBtn.disabled = false;
             saveBtn.style.backgroundColor="#DDDD00";
             break;
@@ -334,10 +338,10 @@ function stateMachine(currentState){
             startBtn.style.backgroundColor="#555500";
             showAnsBtn.disabled = true;
             showAnsBtn.style.backgroundColor="#555500";
-            correctBtn.disabled = true;
-            correctBtn.style.backgroundColor="#005500";
-            incorrectBtn.disabled = true;
-            incorrectBtn.style.backgroundColor="#550000";
+            // correctBtn.disabled = true;
+            // correctBtn.style.backgroundColor="#005500";
+            // incorrectBtn.disabled = true;
+            // incorrectBtn.style.backgroundColor="#550000";
             saveBtn.disabled = false;
             saveBtn.style.backgroundColor="#DDDD00";
             break;
@@ -436,6 +440,6 @@ function showInfinitive(theInfinitive, thePastSimple, thePastParticiple, theList
 
 function showPast(theInfinitive, thePastSimple, thePastParticiple, theListOfVerbs, theIndex){
     theInfinitive.innerHTML = theListOfVerbs[theIndex].infinitive;
-    thePastSimple.innerHTML = theListOfVerbs[theIndex].pastSimple;
-    thePastParticiple.innerHTML = theListOfVerbs[theIndex].pastParticiple;
+    thePastSimple.value = theListOfVerbs[theIndex].pastSimple;
+    thePastParticiple.value = theListOfVerbs[theIndex].pastParticiple;
 }
