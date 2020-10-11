@@ -103,7 +103,7 @@ let rawListOfVerbs =
 "lay#laid#laid*" +
 "sell#sold#sold*" +
 "fight#fought#fought*" +
-"bear#bore#born";
+"bear#bore#born*";
 
 /* 
 ----------------------------------------------------------------------------------
@@ -232,6 +232,14 @@ startBtn.onclick = function(){
         resetStudentScore();
         updateStudentScore();
         logMessage = '*\n\nQUIZ LOG:\n\n';
+        if(studentLearnedWords.value < 1){
+            // invalid number of learned words
+            studentLearnedWords.value = 1;
+        }else if(studentLearnedWords.value > listOfVerbs.length){
+            // invalid number of learned words
+            studentLearnedWords.value = listOfVerbs.length;
+        }
+
         stateMachine(states.QUIZ_STARTED_NO_ANSWER);
     }
     else{
@@ -339,6 +347,7 @@ function stateMachine(currentState){
             // newStudentBtn.style.backgroundColor="#DDDD00";
             // loadBtn.disabled = false;
             // loadListBtn.disabled = false;
+            studentLearnedWords.disabled = false;
             startBtn.disabled = false;
             startBtn.style.backgroundColor="#DDDD00";
             showAnsBtn.disabled = true;
@@ -362,6 +371,7 @@ function stateMachine(currentState){
             // newStudentBtn.style.backgroundColor="#555500";
             // loadBtn.disabled = true;
             // loadListBtn.disabled = true;
+            studentLearnedWords.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
             showAnsBtn.disabled = false;
@@ -382,6 +392,7 @@ function stateMachine(currentState){
             // newStudentBtn.style.backgroundColor="#555500";
             // loadBtn.disabled = true;
             // loadListBtn.disabled = true;
+            studentLearnedWords.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
             showAnsBtn.disabled = true;
@@ -402,6 +413,7 @@ function stateMachine(currentState){
             // newStudentBtn.style.backgroundColor="#555500";
             // loadBtn.disabled = true;
             // loadListBtn.disabled = true;
+            studentLearnedWords.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
             showAnsBtn.disabled = true;
@@ -422,6 +434,7 @@ function stateMachine(currentState){
             // newStudentBtn.style.backgroundColor="#555500";
             // loadBtn.disabled = true;
             // loadListBtn.disabled = true;
+            studentLearnedWords.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
             showAnsBtn.disabled = true;
@@ -441,6 +454,7 @@ function stateMachine(currentState){
             // newStudentBtn.style.backgroundColor="#555500";
             // loadBtn.disabled = true;
             // loadListBtn.disabled = true;
+            studentLearnedWords.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
             showAnsBtn.disabled = true;
