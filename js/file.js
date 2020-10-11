@@ -226,9 +226,7 @@ saveBtn.onclick = function(){
         'Words incorrect: ' + String(aluno.words_total - aluno.words_right) + '\n' +
         'Total number of words: ' + aluno.words_total + '\n' +
         'Score: ' + String((aluno.words_right * 100 / aluno.words_total).toFixed(2)) + '%\n' );
-    let blob = new Blob([logMessage], {type: "text/plain;charset=utf-8"});
-    saveAs(blob, studentName.innerHTML + ".txt"); // using function from external code downloaded from github
-    // Reset state machine and student score
+
     stateMachine(states.STUDENT_REGISTERED);
     wordNumber.innerHTML = 0;
     infinitiveAnswer.innerHTML = '';
