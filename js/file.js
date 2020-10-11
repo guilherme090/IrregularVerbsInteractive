@@ -132,11 +132,6 @@ function correctWord(){
     updateStudentScore();
     logMessage = logMessage.concat('|' + infinitiveAnswer.innerHTML + '|' + 
         pastSimpleAnswer.innerHTML + '|' + pastParticipleAnswer.innerHTML + '|' + ' >>> (correct)' + '\n');
-    // Check if all words were already taken. No new words to show.
-    if(aluno.words_total >= Number(studentLearnedWords.innerHTML))
-    {
-        stateMachine(states.NO_MORE_WORDS);
-    }
 };
 
 function incorrectWord(){
@@ -145,11 +140,6 @@ function incorrectWord(){
     updateStudentScore();
     logMessage = logMessage.concat('*|' + infinitiveAnswer.innerHTML + '|' + 
     pastSimpleAnswer.innerHTML + '|' + pastParticipleAnswer.innerHTML + '|' + ' >>> (incorrect)' + '\n');
-    // Check if all words were already taken. No new words to show.
-    if(aluno.words_total >= Number(studentLearnedWords.innerHTML))
-    {
-        stateMachine(states.NO_MORE_WORDS);
-    }
 };
 
 let showAnsBtn = document.querySelector('#btn-show-answer');
@@ -167,8 +157,14 @@ showAnsBtn.onclick = function(){
 
 let nextWordBtn = document.querySelector('#btn-next-word');
 nextWordBtn.onclick = function(){
-    wordNumber.innerHTML = aluno.words_total + 1;
-    stateMachine(states.QUIZ_STARTED_NO_ANSWER);
+    // Check if all words were already taken. No new words to show.
+    if(aluno.words_total >= Number(studentLearnedWords.innerHTML))
+    {
+        stateMachine(states.NO_MORE_WORDS);
+    } else{
+        wordNumber.innerHTML = aluno.words_total + 1;
+        stateMachine(states.QUIZ_STARTED_NO_ANSWER);
+    }
 }
 
 /* 
@@ -372,7 +368,7 @@ function stateMachine(currentState){
             saveBtn.style.backgroundColor="#DDDD00";
             break;
         case states.NO_MORE_WORDS:
-            messageBoard.innerHTML = 'There are no more words to show. Press SAVE AND FINISH to create a new quiz.';
+            messageBoard.innerHTML = 'There are no more words to show. Press RESET QUIZ to create a new quiz.';
             newStudentBtn.disabled = true;
             newStudentBtn.style.backgroundColor="#555500";
             loadBtn.disabled = true;
