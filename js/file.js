@@ -137,12 +137,6 @@ function correctWord(){
     {
         stateMachine(states.NO_MORE_WORDS);
     }
-    else{
-        // Student still has verbs to see. Show next verb.
-        wordNumber.innerHTML = aluno.words_total + 1;
-        // Signal to the state machine that new word is ready
-        // stateMachine(states.QUIZ_STARTED_NO_ANSWER);
-    }
 };
 
 function incorrectWord(){
@@ -155,12 +149,6 @@ function incorrectWord(){
     if(aluno.words_total >= Number(studentLearnedWords.innerHTML))
     {
         stateMachine(states.NO_MORE_WORDS);
-    }
-    else{
-        // Student still has verbs to see. Show next verb.
-        wordNumber.innerHTML = aluno.words_total + 1;
-        // Signal to the state machine that new word is ready
-        // stateMachine(states.QUIZ_STARTED_NO_ANSWER);
     }
 };
 
@@ -179,6 +167,7 @@ showAnsBtn.onclick = function(){
 
 let nextWordBtn = document.querySelector('#btn-next-word');
 nextWordBtn.onclick = function(){
+    wordNumber.innerHTML = aluno.words_total + 1;
     stateMachine(states.QUIZ_STARTED_NO_ANSWER);
 }
 
