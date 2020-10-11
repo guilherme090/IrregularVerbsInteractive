@@ -141,7 +141,7 @@ function correctWord(){
         // Student still has verbs to see. Show next verb.
         wordNumber.innerHTML = aluno.words_total + 1;
         // Signal to the state machine that new word is ready
-        stateMachine(states.QUIZ_STARTED_NO_ANSWER);
+        // stateMachine(states.QUIZ_STARTED_NO_ANSWER);
     }
 };
 
@@ -160,7 +160,7 @@ function incorrectWord(){
         // Student still has verbs to see. Show next verb.
         wordNumber.innerHTML = aluno.words_total + 1;
         // Signal to the state machine that new word is ready
-        stateMachine(states.QUIZ_STARTED_NO_ANSWER);
+        // stateMachine(states.QUIZ_STARTED_NO_ANSWER);
     }
 };
 
@@ -173,8 +173,13 @@ showAnsBtn.onclick = function(){
     }else{
         incorrectWord();
     }
-    stateMachine(states.QUIZ_STARTED_NO_ANSWER);
+    stateMachine(states.QUIZ_STARTED_ANSWER_SHOWN);
 };
+
+let nextWordBtn = document.querySelector('#btn-next-word');
+nextWordBtn.onclick = function(){
+    stateMachine(states.QUIZ_STARTED_NO_ANSWER);
+}
 
 /* 
 ----------------------------------------------------------------------------------
@@ -246,7 +251,8 @@ const states = {
     STUDENT_REGISTERED: 'student-registered',
     QUIZ_STARTED_NO_ANSWER: 'quiz-started-no-answer', 
     QUIZ_STARTED_ANSWER_SHOWN: 'quiz-started-answer-shown',
-    NO_MORE_WORDS: 'no-more-words'
+    NO_MORE_WORDS: 'no-more-words',
+    QUIZ_STARTED_WAIT_FOR_NEXT_WORD: 'wait-for-next-word'
 };
 
 stateMachine(states.REGISTER_STUDENT);
@@ -266,6 +272,8 @@ function stateMachine(currentState){
             startBtn.style.backgroundColor="#555500";
             showAnsBtn.disabled = true;
             showAnsBtn.style.backgroundColor="#555500";
+            nextWordBtn.disabled = true;
+            nextWordBtn.style.backgroundColor="#555500";
             // correctBtn.disabled = true;
             // correctBtn.style.backgroundColor="#005500";
             // incorrectBtn.disabled = true;
@@ -283,6 +291,8 @@ function stateMachine(currentState){
             startBtn.style.backgroundColor="#DDDD00";
             showAnsBtn.disabled = true;
             showAnsBtn.style.backgroundColor="#555500";
+            nextWordBtn.disabled = true;
+            nextWordBtn.style.backgroundColor="#555500";
             // correctBtn.disabled = true;
             // correctBtn.style.backgroundColor="#005500";
             // incorrectBtn.disabled = true;
@@ -303,6 +313,8 @@ function stateMachine(currentState){
             startBtn.style.backgroundColor="#555500";
             showAnsBtn.disabled = false;
             showAnsBtn.style.backgroundColor="#DDDD00";
+            nextWordBtn.disabled = true;
+            nextWordBtn.style.backgroundColor="#555500";
             // correctBtn.disabled = true;
             // correctBtn.style.backgroundColor="#005500";
             // incorrectBtn.disabled = true;
@@ -321,6 +333,8 @@ function stateMachine(currentState){
             startBtn.style.backgroundColor="#555500";
             showAnsBtn.disabled = true;
             showAnsBtn.style.backgroundColor="#555500";
+            nextWordBtn.disabled = false;
+            nextWordBtn.style.backgroundColor="#DDDD00";
             // correctBtn.disabled = false;
             // correctBtn.style.backgroundColor="#00DD00";
             // incorrectBtn.disabled = false;
@@ -338,6 +352,8 @@ function stateMachine(currentState){
             startBtn.style.backgroundColor="#555500";
             showAnsBtn.disabled = true;
             showAnsBtn.style.backgroundColor="#555500";
+            nextWordBtn.disabled = true;
+            nextWordBtn.style.backgroundColor="#555500";
             // correctBtn.disabled = true;
             // correctBtn.style.backgroundColor="#005500";
             // incorrectBtn.disabled = true;
