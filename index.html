@@ -9,19 +9,16 @@
                 <h1>Irregular Verbs Quiz - Interactive</h1>
             </div>
 
-            <!-- Buttons for creating or loading students -->
+            <!-- Number of learned words to be included in the shuffling process -->
 
             <div class="container" type="file" id="student-data">
-                    <label>Load student data: </label>
-                    <button class="btn-yellow" id="new-student">New student</button>
-                    <input type="file" id="input-file">
 
                     <!-- Data of the student who is currently playing the game -->
 
                 <div>
-                    <label>Student: </label><label id="student-name">-</label>
-                    <br>
-                    <label>Learned words: </label><label id="learned-words">-</label>
+                    <!-- <label>Student: </label><label id="student-name">-</label>
+                    <br> -->
+                    <label>Learned words: </label><input type="number" id="learned-words" min="1" max="100" value="1"></input>
                 </div>
             </div>
 

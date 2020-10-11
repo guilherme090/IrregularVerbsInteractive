@@ -23,7 +23,6 @@ Labels that will store the student's data.
 
 // Student data
 
-let studentName = document.querySelector('#student-name');
 let studentLearnedWords = document.querySelector('#learned-words');
 
 // Message board
@@ -54,29 +53,6 @@ Buttons
 ----------------------------------------------------------------------------------
 All the buttons of the interface
 */ 
-
-let newStudentBtn = document.querySelector('#new-student');
-newStudentBtn.onclick = function(){
-    // Erase reference to current student, if any.
-    loadBtn.value = null;
-
-    //console.log("Botão clicado. Novo estudante será adicionado.");
-    let promptedName = prompt("What is the student's name?","Student Name");
-    let promptedWords = Number(prompt("How many verbs from the list does " + promptedName + " already know?", "1"));
-
-    if(promptedName != "" && Number.isSafeInteger(promptedWords) && promptedWords > 0){
-        aluno.name = promptedName;
-        aluno.words_learned = promptedWords;
-        console.log(aluno);
-        studentName.innerHTML = aluno.name;
-        studentLearnedWords.innerHTML = aluno.words_learned;
-
-        // Signal to the state machine that there is a registered student
-        stateMachine(states.STUDENT_REGISTERED);
-    }else{
-        alert('Student name is empty or the number of words given was incorrect.');
-    } 
-};
 
 const listOfVerbs = []; // stores all verbs that are in the txt file loaded as verb list.
 
@@ -116,7 +92,7 @@ startBtn.onclick = function(){
         // Initialize score
         resetStudentScore();
         updateStudentScore();
-        logMessage = studentName.innerHTML + '*' + studentLearnedWords.innerHTML + '*\n\nQUIZ LOG:\n\n';
+        logMessage = '*\n\nQUIZ LOG:\n\n';
         stateMachine(states.QUIZ_STARTED_NO_ANSWER);
     }
     else{
@@ -158,7 +134,7 @@ showAnsBtn.onclick = function(){
 let nextWordBtn = document.querySelector('#btn-next-word');
 nextWordBtn.onclick = function(){
     // Check if all words were already taken. No new words to show.
-    if(aluno.words_total >= Number(studentLearnedWords.innerHTML))
+    if(aluno.words_total >= Number(studentLearnedWords.value))
     {
         stateMachine(states.NO_MORE_WORDS);
     } else{
@@ -169,37 +145,9 @@ nextWordBtn.onclick = function(){
 
 /* 
 ----------------------------------------------------------------------------------
-File Reading
+Program resetting
 ----------------------------------------------------------------------------------
-The program reads a .txt file loaded by the user containing information to be 
-stored in data structures (student name and pertaining data).
-*/ 
-
-var txtRead = [];
-
-const loadBtn = document.querySelector('#input-file');
-loadBtn.addEventListener('input', function(e){
-    var fr = new FileReader();
-    fr.onload = function(){
-        //console.log(fr.result);
-        txtRead = (fr.result.split('*'));
-        //console.log(txtRead);
-        studentName.innerHTML = txtRead[0];
-        studentLearnedWords.innerHTML = txtRead[1];
-    }
-    fr.readAsText(this.files[0]);
-    //console.log(txtRead);
-
-    // Signal to the state machine that there is a registered student
-    stateMachine(states.STUDENT_REGISTERED);
-});
-
-/* 
-----------------------------------------------------------------------------------
-File Writing
-----------------------------------------------------------------------------------
-The program writes to a .txt file the last quiz's log as well as the student name
-and pertaining data.
+The program erases all data and becomes prepared to a new quiz.
 */ 
 
 const saveBtn = document.querySelector('#btn-save');
@@ -231,7 +179,6 @@ forbidden functions (like starting a quiz without a verb list).
 */ 
 
 const states = {
-    REGISTER_STUDENT: 'register-student',
     STUDENT_REGISTERED: 'student-registered',
     QUIZ_STARTED_NO_ANSWER: 'quiz-started-no-answer', 
     QUIZ_STARTED_ANSWER_SHOWN: 'quiz-started-answer-shown',
@@ -240,37 +187,18 @@ const states = {
     NO_MORE_WORDS: 'no-more-words'
 };
 
-stateMachine(states.REGISTER_STUDENT);
+stateMachine(states.STUDENT_REGISTERED);
 
 function stateMachine(currentState){
     if(!currentState){
         throw new Error('State is not defined');
     }
     switch(currentState){
-        case states.REGISTER_STUDENT:
-            messageBoard.innerHTML = 'Load a student file or create new student data with the NEW STUDENT button.';
-            newStudentBtn.disabled = false;
-            newStudentBtn.style.backgroundColor="#DDDD00";
-            loadBtn.disabled = false;
-            loadListBtn.disabled = false;
-            startBtn.disabled = true;
-            startBtn.style.backgroundColor="#555500";
-            showAnsBtn.disabled = true;
-            showAnsBtn.style.backgroundColor="#555500";
-            nextWordBtn.disabled = true;
-            nextWordBtn.style.backgroundColor="#555500";
-            // correctBtn.disabled = true;
-            // correctBtn.style.backgroundColor="#005500";
-            // incorrectBtn.disabled = true;
-            // incorrectBtn.style.backgroundColor="#550000";
-            saveBtn.disabled = true;
-            saveBtn.style.backgroundColor="#555500";
-            break;
         case states.STUDENT_REGISTERED:
-            messageBoard.innerHTML = 'Student data was loaded. Load a list of verbs file and start the quiz anytime.';
-            newStudentBtn.disabled = false;
-            newStudentBtn.style.backgroundColor="#DDDD00";
-            loadBtn.disabled = false;
+            messageBoard.innerHTML = 'Choose how many words from the list you already know in the "learned words" box and start the quiz anytime.';
+            // newStudentBtn.disabled = false;
+            // newStudentBtn.style.backgroundColor="#DDDD00";
+            // loadBtn.disabled = false;
             loadListBtn.disabled = false;
             startBtn.disabled = false;
             startBtn.style.backgroundColor="#DDDD00";
@@ -286,13 +214,13 @@ function stateMachine(currentState){
             saveBtn.style.backgroundColor="#555500";
             break;
         case states.QUIZ_STARTED_NO_ANSWER:
-            messageBoard.innerHTML = 'What are the past simple and past participle forms of the chosen verb?';
+            messageBoard.innerHTML = 'What are the past simple and past participle forms of the shuffled verb? (In case there is more than a possibility, write them separated by slashes.)';
             shuffledIndex = shuffleVerb(listOfVerbs, wordNumber);
             console.log(shuffledIndex);
             showInfinitive(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
-            newStudentBtn.disabled = true;
-            newStudentBtn.style.backgroundColor="#555500";
-            loadBtn.disabled = true;
+            // newStudentBtn.disabled = true;
+            // newStudentBtn.style.backgroundColor="#555500";
+            // loadBtn.disabled = true;
             loadListBtn.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
@@ -310,9 +238,9 @@ function stateMachine(currentState){
         case states.QUIZ_STARTED_ANSWER_SHOWN:
             messageBoard.innerHTML = 'Was the given answer correct or incorrect?';
             showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
-            newStudentBtn.disabled = true;
-            newStudentBtn.style.backgroundColor="#555500";
-            loadBtn.disabled = true;
+            // newStudentBtn.disabled = true;
+            // newStudentBtn.style.backgroundColor="#555500";
+            // loadBtn.disabled = true;
             loadListBtn.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
@@ -330,9 +258,9 @@ function stateMachine(currentState){
         case states.QUIZ_STARTED_ANSWER_CORRECT:
             messageBoard.innerHTML = 'Congratulations! Your answer is correct.';
             showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
-            newStudentBtn.disabled = true;
-            newStudentBtn.style.backgroundColor="#555500";
-            loadBtn.disabled = true;
+            // newStudentBtn.disabled = true;
+            // newStudentBtn.style.backgroundColor="#555500";
+            // loadBtn.disabled = true;
             loadListBtn.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
@@ -350,9 +278,9 @@ function stateMachine(currentState){
         case states.QUIZ_STARTED_ANSWER_INCORRECT:
             messageBoard.innerHTML = 'Unfortunately, your answer is incorrect.';
             showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
-            newStudentBtn.disabled = true;
-            newStudentBtn.style.backgroundColor="#555500";
-            loadBtn.disabled = true;
+            // newStudentBtn.disabled = true;
+            // newStudentBtn.style.backgroundColor="#555500";
+            // loadBtn.disabled = true;
             loadListBtn.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
@@ -369,9 +297,9 @@ function stateMachine(currentState){
             break;
         case states.NO_MORE_WORDS:
             messageBoard.innerHTML = 'There are no more words to show. Press RESET QUIZ to create a new quiz.';
-            newStudentBtn.disabled = true;
-            newStudentBtn.style.backgroundColor="#555500";
-            loadBtn.disabled = true;
+            // newStudentBtn.disabled = true;
+            // newStudentBtn.style.backgroundColor="#555500";
+            // loadBtn.disabled = true;
             loadListBtn.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
@@ -458,7 +386,7 @@ function shuffleVerb(currentListOfVerbs, currentWordCount){
     // the number of verbs that were already taken is the current wordCount - 1.
     let takenVerbs = Number(currentWordCount.innerHTML) - 1;
     console.log('Word count = ' + takenVerbs);
-    let shuffledNumber = Math.floor(Math.random() * (Number(studentLearnedWords.innerHTML) - takenVerbs)); 
+    let shuffledNumber = Math.floor(Math.random() * (Number(studentLearnedWords.value) - takenVerbs)); 
     console.log('shuffled number = ' + shuffledNumber);
     // Scan the whole list of verbs to point to a non-taken verb in sorted position
     for(let i = 0; i < shuffledNumber || currentListOfVerbs[i].taken === true ; i++){
