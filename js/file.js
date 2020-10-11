@@ -170,10 +170,11 @@ showAnsBtn.onclick = function(){
     if(pastSimpleAnswer.value === listOfVerbs[shuffledIndex].pastSimple &&
        pastParticipleAnswer.value === listOfVerbs[shuffledIndex].pastParticiple ){
         correctWord();
+        stateMachine(states.QUIZ_STARTED_ANSWER_CORRECT);
     }else{
         incorrectWord();
+        stateMachine(states.QUIZ_STARTED_ANSWER_INCORRECT);
     }
-    stateMachine(states.QUIZ_STARTED_ANSWER_SHOWN);
 };
 
 let nextWordBtn = document.querySelector('#btn-next-word');
@@ -251,8 +252,9 @@ const states = {
     STUDENT_REGISTERED: 'student-registered',
     QUIZ_STARTED_NO_ANSWER: 'quiz-started-no-answer', 
     QUIZ_STARTED_ANSWER_SHOWN: 'quiz-started-answer-shown',
-    NO_MORE_WORDS: 'no-more-words',
-    QUIZ_STARTED_WAIT_FOR_NEXT_WORD: 'wait-for-next-word'
+    QUIZ_STARTED_ANSWER_CORRECT: 'quiz-started-answer-correct',
+    QUIZ_STARTED_ANSWER_INCORRECT: 'quiz-started-answer-incorrect',
+    NO_MORE_WORDS: 'no-more-words'
 };
 
 stateMachine(states.REGISTER_STUDENT);
@@ -324,6 +326,46 @@ function stateMachine(currentState){
             break;
         case states.QUIZ_STARTED_ANSWER_SHOWN:
             messageBoard.innerHTML = 'Was the given answer correct or incorrect?';
+            showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
+            newStudentBtn.disabled = true;
+            newStudentBtn.style.backgroundColor="#555500";
+            loadBtn.disabled = true;
+            loadListBtn.disabled = true;
+            startBtn.disabled = true;
+            startBtn.style.backgroundColor="#555500";
+            showAnsBtn.disabled = true;
+            showAnsBtn.style.backgroundColor="#555500";
+            nextWordBtn.disabled = false;
+            nextWordBtn.style.backgroundColor="#DDDD00";
+            // correctBtn.disabled = false;
+            // correctBtn.style.backgroundColor="#00DD00";
+            // incorrectBtn.disabled = false;
+            // incorrectBtn.style.backgroundColor="#DD0000";
+            saveBtn.disabled = false;
+            saveBtn.style.backgroundColor="#DDDD00";
+            break;
+        case states.QUIZ_STARTED_ANSWER_CORRECT:
+            messageBoard.innerHTML = 'Congratulations! Your answer is correct.';
+            showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
+            newStudentBtn.disabled = true;
+            newStudentBtn.style.backgroundColor="#555500";
+            loadBtn.disabled = true;
+            loadListBtn.disabled = true;
+            startBtn.disabled = true;
+            startBtn.style.backgroundColor="#555500";
+            showAnsBtn.disabled = true;
+            showAnsBtn.style.backgroundColor="#555500";
+            nextWordBtn.disabled = false;
+            nextWordBtn.style.backgroundColor="#DDDD00";
+            // correctBtn.disabled = false;
+            // correctBtn.style.backgroundColor="#00DD00";
+            // incorrectBtn.disabled = false;
+            // incorrectBtn.style.backgroundColor="#DD0000";
+            saveBtn.disabled = false;
+            saveBtn.style.backgroundColor="#DDDD00";
+            break;
+        case states.QUIZ_STARTED_ANSWER_INCORRECT:
+            messageBoard.innerHTML = 'Unfortunately, your answer is incorrect.';
             showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
             newStudentBtn.disabled = true;
             newStudentBtn.style.backgroundColor="#555500";
@@ -455,7 +497,6 @@ function showInfinitive(theInfinitive, thePastSimple, thePastParticiple, theList
 }
 
 function showPast(theInfinitive, thePastSimple, thePastParticiple, theListOfVerbs, theIndex){
-    theInfinitive.innerHTML = theListOfVerbs[theIndex].infinitive;
-    thePastSimple.value = theListOfVerbs[theIndex].pastSimple;
-    thePastParticiple.value = theListOfVerbs[theIndex].pastParticiple;
+    messageBoard.innerHTML = messageBoard.innerHTML + '<br />' + '<br />' +
+    '( ' + theListOfVerbs[theIndex].infinitive + ' - ' + theListOfVerbs[theIndex].pastSimple + ' - ' + theListOfVerbs[theIndex].pastParticiple + ' )';
 }
