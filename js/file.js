@@ -47,41 +47,180 @@ function updateStudentScore(){
     } 
 }
 
+let rawListOfVerbs = 
+"say#said#said*"+
+"make#made#made*" +
+"go#went#gone*" +
+"take#took#taken*" +
+"come#came#come*" +
+"see#saw#seen*" +
+"know#knew#known*" +
+"get#got#got/gotten*" +
+"give#gave#given*" +
+"find#found#found*" +
+"think#thought#thought*" +
+"tell#told#told*" +
+"become#became#become*" +
+"show#showed#shown*" +
+"leave#left#left*" +
+"feel#felt#felt*" +
+"put#put#put*" +
+"bring#brought#brought*" +
+"begin#began#begun*" +
+"keep#kept#kept*" +
+"hold#held#held*" +
+"write#wrote#written*" +
+"stand#stood#stood*" +
+"hear#heard#heard*" +
+"let#let#let*" +
+"mean#meant#meant*" +
+"set#set#set*" +
+"meet#met#met*" +
+"run#ran#run*" +
+"pay#paid#paid*" +
+"sit#sat#sat*" +
+"speak#spoke#spoken*" +
+"lie#lay#lain*" +
+"lead#led#led*" +
+"read#read#read*" +
+"grow#grew#grown*" +
+"lose#lost#lost*" +
+"fall#fell#fallen*" +
+"send#sent#sent*" +
+"build#built#built*" +
+"understand#understood#understood*" +
+"draw#drew#drawn*" +
+"break#broke#broken*" +
+"spend#spent#spent*" +
+"cut#cut#cut*" +
+"rise#rose#risen*" +
+"drive#drove#driven*" +
+"buy#bought#bought*" +
+"wear#wore#worn*" +
+"choose#chose#chosen*" +
+"win#won#won*" +
+"forget#forgot#forgotten*" +
+"lay#laid#laid*" +
+"sell#sold#sold*" +
+"fight#fought#fought*" +
+"bear#bore#born";
+
 /* 
 ----------------------------------------------------------------------------------
-Buttons
+The verbs
 ----------------------------------------------------------------------------------
-All the buttons of the interface
+This part of the program reuses its desktop version in which the list of verbs is
+read from a .txt file. Instead, it will be directly loaded here. 
 */ 
+
+class verb {
+    constructor(infinitive, past_simple, past_participle, isTaken){
+        this._infinitive = infinitive;
+        this._past_simple = past_simple;
+        this._past_participle = past_participle;
+        this._taken = isTaken;       
+    }
+
+    get infinitive(){
+        return this._infinitive;
+    }
+
+    get pastSimple(){
+        return this._past_simple;
+    }
+
+    get pastParticiple(){
+        return this._past_participle;
+    }
+
+    get taken(){
+        return this._taken;
+    }
+
+    set taken(newTaken){
+        this._taken = newTaken;
+    }
+}
+
+/*
+----------------------------------------------------------------------------------
+Initializing list of verbs
+----------------------------------------------------------------------------------
+Here, verbs are already inside the program's data structures. The program sets
+the attribute taken to false, meaning that the student has not answered a question
+about that particular verb. When it happens, the value will be set to true.
+*/
+
+function resetVerbList(theListOfVerbs){
+    theListOfVerbs.forEach(
+        function(theVerb){
+            theVerb.taken = false;
+        }
+    );
+}
+
+function resetStudentScore(){
+    aluno.words_right = 0;
+    aluno.words_total = 0;
+}
+
+
+
+let shuffledIndex = 0; // Initialize shuffled number
+
+function shuffleVerb(currentListOfVerbs, currentWordCount){
+    // Shuffled number is a number between 0 and the end of the verb array (excluding verbs already taken)
+    // the number of verbs that were already taken is the current wordCount - 1.
+    let takenVerbs = Number(currentWordCount.innerHTML) - 1;
+    console.log('Word count = ' + takenVerbs);
+    let shuffledNumber = Math.floor(Math.random() * (Number(studentLearnedWords.value) - takenVerbs)); 
+    console.log('shuffled number = ' + shuffledNumber);
+    // Scan the whole list of verbs to point to a non-taken verb in sorted position
+    for(let i = 0; i < shuffledNumber || currentListOfVerbs[i].taken === true ; i++){
+        if(currentListOfVerbs[i].taken === true){
+            shuffledNumber++;
+        }
+    }
+    console.log('shuffled index = ' + shuffledNumber);
+
+    // tell list of verbs that this particular verb was taken
+    currentListOfVerbs[shuffledNumber].taken = true;
+    return shuffledNumber;
+}
+
+function showInfinitive(theInfinitive, thePastSimple, thePastParticiple, theListOfVerbs, theIndex){
+    theInfinitive.innerHTML = theListOfVerbs[theIndex].infinitive;
+    thePastSimple.value = '';
+    thePastParticiple.value = '';
+}
+
+function showPast(theInfinitive, thePastSimple, thePastParticiple, theListOfVerbs, theIndex){
+    messageBoard.innerHTML = messageBoard.innerHTML + '<br />' + '<br />' +
+    '( ' + theListOfVerbs[theIndex].infinitive + ' - ' + theListOfVerbs[theIndex].pastSimple + ' - ' + theListOfVerbs[theIndex].pastParticiple + ' )';
+}
+
+/*
+----------------------------------------------------------------------------------
+List of verbs
+----------------------------------------------------------------------------------
+Instead of reading an external .txt file, the list of verbs was hard coded above, but it will be
+converted to a data structure inside the program in the same way as before.
+*/
+
+let verbsReadWithLineBreak = rawListOfVerbs.replace(/(\r\n|\n|\r)/gm,""); 
+
+let verbsRead = verbsReadWithLineBreak.split('*');
+
+console.log(verbsRead);
 
 const listOfVerbs = []; // stores all verbs that are in the txt file loaded as verb list.
 
-const loadListBtn = document.querySelector('#word-list');
-loadListBtn.addEventListener('input', function(e){
-    var fr2 = new FileReader();
-    fr2.onload = function(){
-        /*
-        The .txt file will separate each verb with '*' and each groups of conjugations
-        of the same verb with '#'. there might be new line characters in the read file.
-        */
-
-        // remove any kind of line break that may appear
-        
-        let verbsReadWithLineBreak = fr2.result.replace(/(\r\n|\n|\r)/gm,""); 
-
-        let verbsRead = verbsReadWithLineBreak.split('*');
-
-        console.log(verbsRead);
-
-        verbsRead.forEach(verbForm => {
-            let singleVerb = verbForm.split('#');
-            listOfVerbs.push(new verb(singleVerb[0], singleVerb[1], singleVerb[2], false));   
-        });
-
-        console.log(listOfVerbs);
-    }
-    fr2.readAsText(this.files[0]);
+verbsRead.forEach(verbForm => {
+    let singleVerb = verbForm.split('#');
+    listOfVerbs.push(new verb(singleVerb[0], singleVerb[1], singleVerb[2], false));   
 });
+
+console.log(listOfVerbs);
 
 let startBtn = document.querySelector('#btn-start');
 startBtn.onclick = function(){
@@ -199,7 +338,7 @@ function stateMachine(currentState){
             // newStudentBtn.disabled = false;
             // newStudentBtn.style.backgroundColor="#DDDD00";
             // loadBtn.disabled = false;
-            loadListBtn.disabled = false;
+            // loadListBtn.disabled = false;
             startBtn.disabled = false;
             startBtn.style.backgroundColor="#DDDD00";
             showAnsBtn.disabled = true;
@@ -214,14 +353,15 @@ function stateMachine(currentState){
             saveBtn.style.backgroundColor="#555500";
             break;
         case states.QUIZ_STARTED_NO_ANSWER:
-            messageBoard.innerHTML = 'What are the past simple and past participle forms of the shuffled verb? (In case there is more than a possibility, write them separated by slashes.)';
+            messageBoard.innerHTML = 'What are the past simple and past participle forms of the shuffled verb?' + "<br />" +
+            'In case there is more than a possibility, write them separated by slashes (learn - learned/learnt - learned/learnt.)';
             shuffledIndex = shuffleVerb(listOfVerbs, wordNumber);
             console.log(shuffledIndex);
             showInfinitive(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
             // newStudentBtn.disabled = true;
             // newStudentBtn.style.backgroundColor="#555500";
             // loadBtn.disabled = true;
-            loadListBtn.disabled = true;
+            // loadListBtn.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
             showAnsBtn.disabled = false;
@@ -241,7 +381,7 @@ function stateMachine(currentState){
             // newStudentBtn.disabled = true;
             // newStudentBtn.style.backgroundColor="#555500";
             // loadBtn.disabled = true;
-            loadListBtn.disabled = true;
+            // loadListBtn.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
             showAnsBtn.disabled = true;
@@ -261,7 +401,7 @@ function stateMachine(currentState){
             // newStudentBtn.disabled = true;
             // newStudentBtn.style.backgroundColor="#555500";
             // loadBtn.disabled = true;
-            loadListBtn.disabled = true;
+            // loadListBtn.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
             showAnsBtn.disabled = true;
@@ -281,7 +421,7 @@ function stateMachine(currentState){
             // newStudentBtn.disabled = true;
             // newStudentBtn.style.backgroundColor="#555500";
             // loadBtn.disabled = true;
-            loadListBtn.disabled = true;
+            // loadListBtn.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
             showAnsBtn.disabled = true;
@@ -300,7 +440,7 @@ function stateMachine(currentState){
             // newStudentBtn.disabled = true;
             // newStudentBtn.style.backgroundColor="#555500";
             // loadBtn.disabled = true;
-            loadListBtn.disabled = true;
+            // loadListBtn.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
             showAnsBtn.disabled = true;
@@ -315,99 +455,4 @@ function stateMachine(currentState){
             saveBtn.style.backgroundColor="#DDDD00";
             break;
     }
-}
-
-/* 
-----------------------------------------------------------------------------------
-The verbs
-----------------------------------------------------------------------------------
-Data structure to store the irregular verbs. This part uses the same approach as
-File Reading to get a .txt file with the list of verbs in the infinitive, past
-simple and past participle.
-*/ 
-
-class verb {
-    constructor(infinitive, past_simple, past_participle, isTaken){
-        this._infinitive = infinitive;
-        this._past_simple = past_simple;
-        this._past_participle = past_participle;
-        this._taken = isTaken;       
-    }
-
-    get infinitive(){
-        return this._infinitive;
-    }
-
-    get pastSimple(){
-        return this._past_simple;
-    }
-
-    get pastParticiple(){
-        return this._past_participle;
-    }
-
-    get taken(){
-        return this._taken;
-    }
-
-    set taken(newTaken){
-        this._taken = newTaken;
-    }
-}
-
-/*
-----------------------------------------------------------------------------------
-Initializing list of verbs
-----------------------------------------------------------------------------------
-Here, verbs are already inside the program's data structures. The program sets
-the attribute taken to false, meaning that the student has not answered a question
-about that particular verb. When it happens, the value will be set to true.
-*/
-
-function resetVerbList(theListOfVerbs){
-    theListOfVerbs.forEach(
-        function(theVerb){
-            theVerb.taken = false;
-        }
-    );
-}
-
-function resetStudentScore(){
-    aluno.words_right = 0;
-    aluno.words_total = 0;
-}
-
-
-
-let shuffledIndex = 0; // Initialize shuffled number
-
-function shuffleVerb(currentListOfVerbs, currentWordCount){
-    // Shuffled number is a number between 0 and the end of the verb array (excluding verbs already taken)
-    // the number of verbs that were already taken is the current wordCount - 1.
-    let takenVerbs = Number(currentWordCount.innerHTML) - 1;
-    console.log('Word count = ' + takenVerbs);
-    let shuffledNumber = Math.floor(Math.random() * (Number(studentLearnedWords.value) - takenVerbs)); 
-    console.log('shuffled number = ' + shuffledNumber);
-    // Scan the whole list of verbs to point to a non-taken verb in sorted position
-    for(let i = 0; i < shuffledNumber || currentListOfVerbs[i].taken === true ; i++){
-        if(currentListOfVerbs[i].taken === true){
-            shuffledNumber++;
-        }
-    }
-    console.log('shuffled index = ' + shuffledNumber);
-
-    // tell list of verbs that this particular verb was taken
-    currentListOfVerbs[shuffledNumber].taken = true;
-    return shuffledNumber;
-}
-
-function showInfinitive(theInfinitive, thePastSimple, thePastParticiple, theListOfVerbs, theIndex){
-    theInfinitive.innerHTML = theListOfVerbs[theIndex].infinitive;
-    thePastSimple.value = '';
-    thePastParticiple.value = '';
-}
-
-function showPast(theInfinitive, thePastSimple, thePastParticiple, theListOfVerbs, theIndex){
-    messageBoard.innerHTML = messageBoard.innerHTML + '<br />' + '<br />' +
-    '( ' + theListOfVerbs[theIndex].infinitive + ' - ' + theListOfVerbs[theIndex].pastSimple + ' - ' + theListOfVerbs[theIndex].pastParticiple + ' )';
 }
