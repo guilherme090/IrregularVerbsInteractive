@@ -312,8 +312,8 @@ function incorrectWord(){
 let showAnsBtn = document.querySelector('#btn-show-answer');
 showAnsBtn.onclick = function(){
     // Signal to the state machine that answer was shown
-    if(pastSimpleAnswer.value === listOfVerbs[shuffledIndex].pastSimple &&
-       pastParticipleAnswer.value === listOfVerbs[shuffledIndex].pastParticiple ){
+    if(pastSimpleAnswer.value.toLowerCase() === listOfVerbs[shuffledIndex].pastSimple &&
+       pastParticipleAnswer.value.toLowerCase() === listOfVerbs[shuffledIndex].pastParticiple ){
         correctWord();
         stateMachine(states.QUIZ_STARTED_ANSWER_CORRECT);
     }else{
