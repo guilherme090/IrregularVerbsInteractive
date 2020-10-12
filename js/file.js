@@ -240,7 +240,7 @@ function showInfinitive(theInfinitive, thePastSimple, thePastParticiple, theList
 
 function showPast(theInfinitive, thePastSimple, thePastParticiple, theListOfVerbs, theIndex){
     messageBoard.innerHTML = messageBoard.innerHTML + '<br />' + '<br />' +
-    '( ' + theListOfVerbs[theIndex].infinitive + ' - ' + theListOfVerbs[theIndex].pastSimple + ' - ' + theListOfVerbs[theIndex].pastParticiple + ' )';
+    '(' + theListOfVerbs[theIndex].infinitive + ' - ' + theListOfVerbs[theIndex].pastSimple + ' - ' + theListOfVerbs[theIndex].pastParticiple + ')';
 }
 
 /*
@@ -407,7 +407,7 @@ function stateMachine(currentState){
             break;
         case states.QUIZ_STARTED_NO_ANSWER:
             messageBoard.innerHTML = 'What are the past simple and past participle forms of the shuffled verb?' + "<br />" +
-            'In case there is more than a possibility, write them separated by slashes (learn - learned/learnt - learned/learnt.)';
+            'In case there is more than a possibility, write them separated by slashes (learn - learned/learnt - learned/learnt).';
             shuffledIndex = shuffleVerb(listOfVerbs, wordNumber);
             console.log(shuffledIndex);
             showInfinitive(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
