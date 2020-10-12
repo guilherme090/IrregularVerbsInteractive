@@ -48,7 +48,7 @@ function updateStudentScore(){
 }
 
 let rawListOfVerbs = 
-"say#said#said*"+
+"say#said#said*" +
 "make#made#made*" +
 "go#went#gone*" +
 "take#took#taken*" +
@@ -98,12 +98,56 @@ let rawListOfVerbs =
 "buy#bought#bought*" +
 "wear#wore#worn*" +
 "choose#chose#chosen*" +
+"seek#sought#sought*" +
+"throw#threw#thrown*" +
+"catch#caught#caught*" +
+"deal#dealt#dealt*" +
 "win#won#won*" +
 "forget#forgot#forgotten*" +
 "lay#laid#laid*" +
 "sell#sold#sold*" +
 "fight#fought#fought*" +
-"bear#bore#born*";
+"bear#bore#born*" +
+"teach#taught#taught*" +
+"eat#ate#eaten*" +
+"sing#sang#sung*" +
+"strike#struck#struck*" +
+"hang#hung#hung*" +
+"shake#shook#shaken*" +
+"ride#rode#ridden*" +
+"feed#fed#fed*" +
+"shoot#shot#shot*" +
+"drink#drank#drunk*" +
+"hit#hit#hit*" +
+"arise#arose#arisen*" +
+"fly#flew#flown*" +
+"spread#spread#spread*" +
+"sleep#slept#slept*" +
+"cost#cost#cost*" +
+"beat#beat#beaten*" +
+"light#lit#lit*" +
+"bind#bound#bound*" +
+"cast#cast#cast*" +
+"hide#hid#hidden*" +
+"swing#swung#swung*" +
+"blow#blew#blown*" +
+"swim#swam#swum*" +
+"bend#bent#bent*" +
+"wake#woke#woken*" +
+"stick#stuck#stuck*" +
+"sweep#swept#swept*" +
+"undertake#undertook#undertaken*" +
+"shut#shut#shut*" +
+"steal#stole#stolen*" +
+"tear#tore#torn*" +
+"hurt#hurt#hurt*" +
+"ring#rang#rung*" +
+"lend#lent#lent*" +
+"sink#sank#sunk*" +
+"overcome#overcame#overcome*" +
+"freeze#froze#frozen*" +
+"shine#shone#shone*" +
+"withdraw#withdrew#withdrawn";
 
 /* 
 ----------------------------------------------------------------------------------
