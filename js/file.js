@@ -301,8 +301,8 @@ function correctWord(){
     aluno.words_total ++;
     console.log(aluno);
     updateStudentScore();
-    logMessage = logMessage.concat('| ' + infinitiveAnswer.innerHTML + ' |' + 
-        pastSimpleAnswer.value + '| ' + pastParticipleAnswer.value + ' |' + ' >>> (correct)' + '<br>');
+    logMessage = logMessage.concat('| ' + infinitiveAnswer.innerHTML + ' | ' + 
+        pastSimpleAnswer.value + ' | ' + pastParticipleAnswer.value + ' |' + ' >>> (correct)' + '<br>');
     quizLogBoard.innerHTML = logMessage;
 };
 
@@ -310,8 +310,8 @@ function incorrectWord(){
     aluno.words_total ++;
     console.log(aluno);
     updateStudentScore();
-    logMessage = logMessage.concat('*| ' + infinitiveAnswer.innerHTML + ' |' + 
-    pastSimpleAnswer.value + '| ' + pastParticipleAnswer.value + ' |' + ' >>> (incorrect)' + '<br>');
+    logMessage = logMessage.concat('*| ' + infinitiveAnswer.innerHTML + ' | ' + 
+    pastSimpleAnswer.value + ' | ' + pastParticipleAnswer.value + ' |' + ' >>> (incorrect)' + '<br>');
     quizLogBoard.innerHTML = logMessage;
 };
 
