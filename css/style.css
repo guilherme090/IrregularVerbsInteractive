@@ -1,16 +1,16 @@
 body{
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.73);
     font-family: Arial, Helvetica, sans-serif;
     color: white;
 }
 
 #title-box{
     background-image: url("images/background.png");
-    background-color: yellow;
+    background-color: rgb(61, 25, 3);
     background-repeat: repeat-x;
     font-family:Arial, Helvetica, sans-serif;
     text-align: center;
-    color: black;
+    color: rgb(255, 208, 0);
     /* height: 40px; */
 }
 
