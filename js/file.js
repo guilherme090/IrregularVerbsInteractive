@@ -37,6 +37,10 @@ let infinitiveAnswer = document.querySelector('#answer-infinitive');
 let pastSimpleAnswer = document.querySelector('#answer-past-simple');
 let pastParticipleAnswer = document.querySelector('#answer-past-participle');
 
+// Quiz log board
+
+let quizLogBoard = document.querySelector('#message-log');
+
 // Update functions
 function updateStudentScore(){
     if(aluno.words_total === 0){
@@ -275,7 +279,7 @@ startBtn.onclick = function(){
         // Initialize score
         resetStudentScore();
         updateStudentScore();
-        logMessage = '*\n\nQUIZ LOG:\n\n';
+        logMessage = 'QUIZ LOG:<br><br>';
         if(studentLearnedWords.value < 1){
             // invalid number of learned words
             studentLearnedWords.value = 1;
@@ -297,16 +301,18 @@ function correctWord(){
     aluno.words_total ++;
     console.log(aluno);
     updateStudentScore();
-    logMessage = logMessage.concat('|' + infinitiveAnswer.innerHTML + '|' + 
-        pastSimpleAnswer.innerHTML + '|' + pastParticipleAnswer.innerHTML + '|' + ' >>> (correct)' + '\n');
+    logMessage = logMessage.concat('| ' + infinitiveAnswer.innerHTML + ' |' + 
+        pastSimpleAnswer.value + '| ' + pastParticipleAnswer.value + ' |' + ' >>> (correct)' + '<br>');
+    quizLogBoard.innerHTML = logMessage;
 };
 
 function incorrectWord(){
     aluno.words_total ++;
     console.log(aluno);
     updateStudentScore();
-    logMessage = logMessage.concat('*|' + infinitiveAnswer.innerHTML + '|' + 
-    pastSimpleAnswer.innerHTML + '|' + pastParticipleAnswer.innerHTML + '|' + ' >>> (incorrect)' + '\n');
+    logMessage = logMessage.concat('*| ' + infinitiveAnswer.innerHTML + ' |' + 
+    pastSimpleAnswer.value + '| ' + pastParticipleAnswer.value + ' |' + ' >>> (incorrect)' + '<br>');
+    quizLogBoard.innerHTML = logMessage;
 };
 
 let showAnsBtn = document.querySelector('#btn-show-answer');
