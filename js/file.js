@@ -406,8 +406,7 @@ function stateMachine(currentState){
             saveBtn.style.backgroundColor="#555500";
             break;
         case states.QUIZ_STARTED_NO_ANSWER:
-            messageBoard.innerHTML = 'What are the past simple and past participle forms of the shuffled verb?' + "<br />" +
-            'In case there is more than a possibility, write them separated by slashes (learn - learned/learnt - learned/learnt).';
+            messageBoard.innerHTML = 'What are the past simple and past participle forms of the shuffled verb?';
             shuffledIndex = shuffleVerb(listOfVerbs, wordNumber);
             console.log(shuffledIndex);
             showInfinitive(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
