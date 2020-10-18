@@ -349,14 +349,10 @@ The program erases all data and becomes prepared to a new quiz.
 
 const saveBtn = document.querySelector('#btn-save');
 saveBtn.onclick = function(){
-    // Mount text file using * separators;
-     
-    //let data = studentName.innerHTML + '*' + studentLearnedWords.innerHTML;
-    logMessage = logMessage.concat('\n' + 'Words correct: ' + aluno.words_right + '\n' + 
-        'Words incorrect: ' + String(aluno.words_total - aluno.words_right) + '\n' +
-        'Total number of words: ' + aluno.words_total + '\n' +
-        'Score: ' + String((aluno.words_right * 100 / aluno.words_total).toFixed(2)) + '%\n' );
-
+    
+    // Erase quiz log
+    quizLogBoard.innerHTML = 'QUIZ LOG:';
+    
     stateMachine(states.STUDENT_REGISTERED);
     wordNumber.innerHTML = 0;
     infinitiveAnswer.innerHTML = '';
