@@ -26,20 +26,19 @@
 
             <!-- Quiz area -->
             <div class="container" id="quiz-area">
-                <div class="container" id="message-board">
+            <label>Word number: </label><label id="word-no"> 0</label>
+                <div class="container" id="quiz-labels">
+   
                     <article id="message">
                         Message Board.
                     </article>
-                </div>
-                <div class="container" id="quiz-labels">
-                    <label>Word number: </label><label id="word-no"> 0</label>
 
-                    <ul><label>Infinitive:</label> <label id="answer-infinitive"></label></ul>
-                    <ul><label>Past Simple:</label> <input type="text" id="answer-past-simple"></input></ul>
-                    <ul><label>Past Participle:</label> <input type="text" id="answer-past-participle"></input></ul>
-        
-                    <label>Correct Answers:</label> <label id="correct-pct">0.00</label><label>%</label>
+                    <ul><label class="answers">Infinitive:</label> <label class="answers" id="answer-infinitive"></label></ul>
+                    <ul><label class="answers">Past Simple:</label> <input class="answers" type="text" id="answer-past-simple"></input></ul>
+                    <ul><label class="answers">Past Participle:</label> <input class="answers" type="text" id="answer-past-participle"></input></ul>
+    
                 </div>
+                <label>Correct Answers:</label> <label id="correct-pct">0.00</label><label>%</label>
             </div>
 
             <div class="container" id="final-buttons">

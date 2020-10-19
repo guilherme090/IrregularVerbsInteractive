@@ -36,6 +36,7 @@ let correctPct = document.querySelector('#correct-pct');
 let infinitiveAnswer = document.querySelector('#answer-infinitive');
 let pastSimpleAnswer = document.querySelector('#answer-past-simple');
 let pastParticipleAnswer = document.querySelector('#answer-past-participle');
+let allLabels = document.getElementsByClassName('answers');
 
 // Quiz log board
 
@@ -364,6 +365,20 @@ saveBtn.onclick = function(){
 
 /* 
 ----------------------------------------------------------------------------------
+Clearing all labels
+----------------------------------------------------------------------------------
+The program shifts between answer labels to be visible and invisible. This is meant
+so the message board and the answer labels can occupy the same space to optimize
+space (especially in smartphones)
+*/ 
+function setLabelVisibility(visibilityMode){
+    for(let i = 0; i < allLabels.length; i++){
+        allLabels[i].style.visibility = visibilityMode;
+    }
+}
+
+/* 
+----------------------------------------------------------------------------------
 State Machine
 ----------------------------------------------------------------------------------
 This part of the code configures every button that must be activated or
@@ -388,6 +403,7 @@ function stateMachine(currentState){
     }
     switch(currentState){
         case states.STUDENT_REGISTERED:
+            setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
             messageBoard.innerHTML = 'Choose how many words from the list you already know in the "learned words" box and start the quiz anytime.';
             // newStudentBtn.disabled = false;
             // newStudentBtn.style.backgroundColor="#DDDD00";
@@ -406,9 +422,11 @@ function stateMachine(currentState){
             // incorrectBtn.style.backgroundColor="#550000";
             saveBtn.disabled = true;
             saveBtn.style.backgroundColor="#555500";
+
             break;
         case states.QUIZ_STARTED_NO_ANSWER:
-            messageBoard.innerHTML = 'What are the past simple and past participle forms of the shuffled verb?';
+            setLabelVisibility('visible'); // Show verbs. Student needs to write the answers
+            messageBoard.innerHTML = '';
             shuffledIndex = shuffleVerb(listOfVerbs, wordNumber);
             console.log(shuffledIndex);
             showInfinitive(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
@@ -452,6 +470,7 @@ function stateMachine(currentState){
             saveBtn.style.backgroundColor="#DDDD00";
             break;
         case states.QUIZ_STARTED_ANSWER_CORRECT:
+            setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
             messageBoard.innerHTML = 'Congratulations! Your answer is correct.';
             showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
             // newStudentBtn.disabled = true;
@@ -473,6 +492,7 @@ function stateMachine(currentState){
             saveBtn.style.backgroundColor="#DDDD00";
             break;
         case states.QUIZ_STARTED_ANSWER_INCORRECT:
+            setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
             messageBoard.innerHTML = 'Unfortunately, your answer is incorrect.';
             showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
             // newStudentBtn.disabled = true;
@@ -494,6 +514,7 @@ function stateMachine(currentState){
             saveBtn.style.backgroundColor="#DDDD00";
             break;
         case states.NO_MORE_WORDS:
+            setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
             messageBoard.innerHTML = 'There are no more words to show. Press RESET QUIZ to create a new quiz.';
             // newStudentBtn.disabled = true;
             // newStudentBtn.style.backgroundColor="#555500";
