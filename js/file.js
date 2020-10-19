@@ -303,7 +303,7 @@ function correctWord(){
     console.log(aluno);
     updateStudentScore();
     logMessage = logMessage.concat('| ' + infinitiveAnswer.innerHTML + ' | ' + 
-        pastSimpleAnswer.value + ' | ' + pastParticipleAnswer.value + ' |' + ' >>> (correct)' + '<br>');
+        pastSimpleAnswer.value.toLowerCase() + ' | ' + pastParticipleAnswer.value.toLowerCase() + ' |' + ' >>> (correct)' + '<br>');
     quizLogBoard.innerHTML = logMessage;
 };
 
@@ -312,7 +312,7 @@ function incorrectWord(){
     console.log(aluno);
     updateStudentScore();
     logMessage = logMessage.concat('*| ' + infinitiveAnswer.innerHTML + ' | ' + 
-    pastSimpleAnswer.value + ' | ' + pastParticipleAnswer.value + ' |' + ' >>> (incorrect)' + '<br>');
+    pastSimpleAnswer.value.toLowerCase() + ' | ' + pastParticipleAnswer.value.toLowerCase() + ' |' + ' >>> (incorrect)' + '<br>');
     quizLogBoard.innerHTML = logMessage;
 };
 
@@ -471,7 +471,7 @@ function stateMachine(currentState){
             break;
         case states.QUIZ_STARTED_ANSWER_CORRECT:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
-            messageBoard.innerHTML = 'Congratulations! Your answer is correct.';
+            messageBoard.innerHTML = 'Congratulations! Your answer is correct. Click on NEXT WORD to proceed.';
             showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
             // newStudentBtn.disabled = true;
             // newStudentBtn.style.backgroundColor="#555500";
@@ -493,7 +493,7 @@ function stateMachine(currentState){
             break;
         case states.QUIZ_STARTED_ANSWER_INCORRECT:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
-            messageBoard.innerHTML = 'Unfortunately, your answer is incorrect.';
+            messageBoard.innerHTML = 'Unfortunately, your answer is incorrect. Click on NEXT WORD to proceed.';
             showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
             // newStudentBtn.disabled = true;
             // newStudentBtn.style.backgroundColor="#555500";
