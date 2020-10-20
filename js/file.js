@@ -297,6 +297,35 @@ startBtn.onclick = function(){
     
 }
 
+/*
+----------------------------------------------------------------------------------
+isCorrect
+----------------------------------------------------------------------------------
+This function breaks the answer found in the verb list in the possible answers
+that will be accepted as true and checks if any of them matches the user's answer.
+Ex: got/gotten will compare the user's response to both got and gotten.
+*/
+
+function isCorrectPastSimple(userPastSimple, programPastSimple){
+    let correctPastSimple = programPastSimple.split('/'); // all possibilities for past simple
+    for(let i = 0; i < correctPastSimple.length; i++){
+        if (userPastSimple === correctPastSimple[i]){
+            return true;
+        }
+    }
+    return false;
+}
+
+function isCorrectPastParticiple(userPastParticiple, programPastParticiple){
+    let correctPastParticiple = programPastParticiple.split('/'); // all possibilities for past simple
+    for(let i = 0; i < correctPastParticiple.length; i++){
+        if (userPastParticiple === correctPastParticiple[i]){
+            return true;
+        }
+    }
+    return false;
+}
+
 function correctWord(){
     aluno.words_right ++;
     aluno.words_total ++;
@@ -319,8 +348,8 @@ function incorrectWord(){
 let showAnsBtn = document.querySelector('#btn-show-answer');
 showAnsBtn.onclick = function(){
     // Signal to the state machine that answer was shown
-    if(pastSimpleAnswer.value.toLowerCase() === listOfVerbs[shuffledIndex].pastSimple &&
-       pastParticipleAnswer.value.toLowerCase() === listOfVerbs[shuffledIndex].pastParticiple ){
+    if(isCorrectPastSimple(pastSimpleAnswer.value.toLowerCase(), listOfVerbs[shuffledIndex].pastSimple) &&
+       isCorrectPastParticiple(pastParticipleAnswer.value.toLowerCase(), listOfVerbs[shuffledIndex].pastParticiple) ){
         correctWord();
         stateMachine(states.QUIZ_STARTED_ANSWER_CORRECT);
     }else{
@@ -515,13 +544,13 @@ function stateMachine(currentState){
             break;
         case states.NO_MORE_WORDS:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
-            let messageToBeShown = 'You have memorized ' + aluno.words_right + ' words out of ' + aluno.words_total + '.';
+            let messageToBeShown = 'Your score: ' + aluno.words_right + ' words out of ' + aluno.words_total + '. ';
             if(aluno.words_right / aluno.words_total < 0.6){
-                messageToBeShown = messageToBeShown.concat('<br>Keep working on your list. You will soon memorize a lot of words!');
+                messageToBeShown = messageToBeShown.concat('Keep working on your list. You will soon memorize a lot of words!');
             }else if(aluno.words_right / aluno.words_total < 0.9){
-                messageToBeShown = messageToBeShown.concat('<br>You have done a great job! You learned many words from the list!');
+                messageToBeShown = messageToBeShown.concat('You have done a great job! You learned many words from the list!');
             }else{
-                messageToBeShown = messageToBeShown.concat('<br>Your memorization skills are impressive! You should consider adding more verbs to your list.');
+                messageToBeShown = messageToBeShown.concat('Your memorization skills are impressive! You should consider adding more verbs to your list.');
             }
 
             messageToBeShown = messageToBeShown.concat('<br>There are no more words to show. Press RESET QUIZ to create a new quiz.');
