@@ -515,7 +515,19 @@ function stateMachine(currentState){
             break;
         case states.NO_MORE_WORDS:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
-            messageBoard.innerHTML = 'There are no more words to show. Press RESET QUIZ to create a new quiz.';
+            let messageToBeShown = 'You have memorized ' + aluno.words_right + ' words out of ' + aluno.words_total + '.';
+            if(aluno.words_right / aluno.words_total < 0.6){
+                messageToBeShown = messageToBeShown.concat('<br>Keep working on your list. You will soon memorize a lot of words!');
+            }else if(aluno.words_right / aluno.words_total < 0.9){
+                messageToBeShown = messageToBeShown.concat('<br>You have done a great job! You learned many words from the list!');
+            }else{
+                messageToBeShown = messageToBeShown.concat('<br>Your memorization skills are impressive! You should consider adding more verbs to your list.');
+            }
+
+            messageToBeShown = messageToBeShown.concat('<br>There are no more words to show. Press RESET QUIZ to create a new quiz.');
+            
+            messageBoard.innerHTML = messageToBeShown; 
+
             // newStudentBtn.disabled = true;
             // newStudentBtn.style.backgroundColor="#555500";
             // loadBtn.disabled = true;
