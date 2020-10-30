@@ -24,6 +24,28 @@ Labels that will store the student's data.
 // Student data
 
 let studentLearnedWords = document.querySelector('#learned-words');
+let pastSimpleCheckbox = document.querySelector('#include-past-simple');
+
+/* 
+----------------------------------------------------------------------------------
+Auxiliary functions (togglePastSimple() / togglePastParticiple())
+----------------------------------------------------------------------------------
+Activated when labels are clicked. If both are unchecked, check the other one.
+*/ 
+
+function togglePastSimple(){
+    if(pastSimpleCheckbox.checked == false && pastParticipleCheckbox.checked == false){
+        pastParticipleCheckbox.checked = true;
+    }
+}
+
+function togglePastParticiple(){
+    if(pastSimpleCheckbox.checked == false && pastParticipleCheckbox.checked == false){
+        pastSimpleCheckbox.checked = true;
+    }
+}
+
+let pastParticipleCheckbox = document.querySelector('#include-past-participle');
 
 // Message board
 
@@ -307,6 +329,10 @@ Ex: got/gotten will compare the user's response to both got and gotten.
 */
 
 function isCorrectPastSimple(userPastSimple, programPastSimple){
+    // In case the program is not checking past simple, say it is correct. 
+    if(pastSimpleCheckbox.checked == false){
+        return true;
+    }
     let correctPastSimple = programPastSimple.split('/'); // all possibilities for past simple
     for(let i = 0; i < correctPastSimple.length; i++){
         if (userPastSimple === correctPastSimple[i]){
@@ -317,6 +343,10 @@ function isCorrectPastSimple(userPastSimple, programPastSimple){
 }
 
 function isCorrectPastParticiple(userPastParticiple, programPastParticiple){
+    // In case the program is not checking past participle, say it is correct. 
+    if(pastParticipleCheckbox.checked == false){
+        return true;
+    }
     let correctPastParticiple = programPastParticiple.split('/'); // all possibilities for past simple
     for(let i = 0; i < correctPastParticiple.length; i++){
         if (userPastParticiple === correctPastParticiple[i]){
@@ -451,7 +481,10 @@ function stateMachine(currentState){
             // incorrectBtn.style.backgroundColor="#550000";
             saveBtn.disabled = true;
             saveBtn.style.backgroundColor="#555500";
-
+            pastSimpleCheckbox.checked = true;
+            pastParticipleCheckbox.checked = true;
+            pastSimpleCheckbox.disabled = false;
+            pastParticipleCheckbox.disabled = false;
             break;
         case states.QUIZ_STARTED_NO_ANSWER:
             setLabelVisibility('visible'); // Show verbs. Student needs to write the answers
@@ -476,6 +509,20 @@ function stateMachine(currentState){
             // incorrectBtn.style.backgroundColor="#550000";
             saveBtn.disabled = false;
             saveBtn.style.backgroundColor="#DDDD00";
+            pastSimpleCheckbox.disabled = true;
+            pastParticipleCheckbox.disabled = true;
+            if(pastSimpleCheckbox.checked == false){
+                pastSimpleAnswer.value = '---';
+                pastSimpleAnswer.disabled = true;
+            }else{
+                pastSimpleAnswer.disabled = false;
+            }
+            if(pastParticipleCheckbox.checked == false){
+                pastParticipleAnswer.value = '---';
+                pastParticipleAnswer.disabled = true;
+            }else{
+                pastParticipleAnswer.disabled = false;
+            }
             break;
         case states.QUIZ_STARTED_ANSWER_SHOWN:
             messageBoard.innerHTML = 'Was the given answer correct or incorrect?';

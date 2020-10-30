@@ -16,9 +16,17 @@
                     <!-- Data of the student who is currently playing the game -->
 
                 <div>
-                    <!-- <label>Student: </label><label id="student-name">-</label>
-                    <br> -->
                     <label>Learned words: </label><input type="number" id="learned-words" min="1" max="100" value="1"></input>
+                    <br>
+
+                    <!-- Past Simple (label and checkbox) -->
+                    <input type="checkbox" id="include-past-simple" onclick="togglePastSimple()">
+                    <label>Include Past Simple</label> 
+
+                    <!-- Past Participle (label and checkbox) -->
+                    <input type="checkbox" id="include-past-participle" onclick="togglePastParticiple()">
+                    <label>Include Past Participle</label>
+                    
                 </div>
             </div>
 
