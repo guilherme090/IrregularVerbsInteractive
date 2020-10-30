@@ -464,10 +464,6 @@ function stateMachine(currentState){
         case states.STUDENT_REGISTERED:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
             messageBoard.innerHTML = 'Choose how many words from the list you already know in the "learned words" box and start the quiz anytime.';
-            // newStudentBtn.disabled = false;
-            // newStudentBtn.style.backgroundColor="#DDDD00";
-            // loadBtn.disabled = false;
-            // loadListBtn.disabled = false;
             studentLearnedWords.disabled = false;
             startBtn.disabled = false;
             startBtn.style.backgroundColor="#DDDD00";
@@ -475,10 +471,6 @@ function stateMachine(currentState){
             showAnsBtn.style.backgroundColor="#555500";
             nextWordBtn.disabled = true;
             nextWordBtn.style.backgroundColor="#555500";
-            // correctBtn.disabled = true;
-            // correctBtn.style.backgroundColor="#005500";
-            // incorrectBtn.disabled = true;
-            // incorrectBtn.style.backgroundColor="#550000";
             saveBtn.disabled = true;
             saveBtn.style.backgroundColor="#555500";
             pastSimpleCheckbox.checked = true;
@@ -492,10 +484,6 @@ function stateMachine(currentState){
             shuffledIndex = shuffleVerb(listOfVerbs, wordNumber);
             console.log(shuffledIndex);
             showInfinitive(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
-            // newStudentBtn.disabled = true;
-            // newStudentBtn.style.backgroundColor="#555500";
-            // loadBtn.disabled = true;
-            // loadListBtn.disabled = true;
             studentLearnedWords.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
@@ -503,10 +491,6 @@ function stateMachine(currentState){
             showAnsBtn.style.backgroundColor="#DDDD00";
             nextWordBtn.disabled = true;
             nextWordBtn.style.backgroundColor="#555500";
-            // correctBtn.disabled = true;
-            // correctBtn.style.backgroundColor="#005500";
-            // incorrectBtn.disabled = true;
-            // incorrectBtn.style.backgroundColor="#550000";
             saveBtn.disabled = false;
             saveBtn.style.backgroundColor="#DDDD00";
             pastSimpleCheckbox.disabled = true;
@@ -527,10 +511,6 @@ function stateMachine(currentState){
         case states.QUIZ_STARTED_ANSWER_SHOWN:
             messageBoard.innerHTML = 'Was the given answer correct or incorrect?';
             showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
-            // newStudentBtn.disabled = true;
-            // newStudentBtn.style.backgroundColor="#555500";
-            // loadBtn.disabled = true;
-            // loadListBtn.disabled = true;
             studentLearnedWords.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
@@ -538,10 +518,6 @@ function stateMachine(currentState){
             showAnsBtn.style.backgroundColor="#555500";
             nextWordBtn.disabled = false;
             nextWordBtn.style.backgroundColor="#DDDD00";
-            // correctBtn.disabled = false;
-            // correctBtn.style.backgroundColor="#00DD00";
-            // incorrectBtn.disabled = false;
-            // incorrectBtn.style.backgroundColor="#DD0000";
             saveBtn.disabled = false;
             saveBtn.style.backgroundColor="#DDDD00";
             break;
@@ -549,10 +525,6 @@ function stateMachine(currentState){
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
             messageBoard.innerHTML = 'Congratulations! Your answer is correct. Click on NEXT WORD to proceed.';
             showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
-            // newStudentBtn.disabled = true;
-            // newStudentBtn.style.backgroundColor="#555500";
-            // loadBtn.disabled = true;
-            // loadListBtn.disabled = true;
             studentLearnedWords.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
@@ -560,10 +532,6 @@ function stateMachine(currentState){
             showAnsBtn.style.backgroundColor="#555500";
             nextWordBtn.disabled = false;
             nextWordBtn.style.backgroundColor="#DDDD00";
-            // correctBtn.disabled = false;
-            // correctBtn.style.backgroundColor="#00DD00";
-            // incorrectBtn.disabled = false;
-            // incorrectBtn.style.backgroundColor="#DD0000";
             saveBtn.disabled = false;
             saveBtn.style.backgroundColor="#DDDD00";
             break;
@@ -571,10 +539,6 @@ function stateMachine(currentState){
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
             messageBoard.innerHTML = 'Unfortunately, your answer is incorrect. Click on NEXT WORD to proceed.';
             showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
-            // newStudentBtn.disabled = true;
-            // newStudentBtn.style.backgroundColor="#555500";
-            // loadBtn.disabled = true;
-            // loadListBtn.disabled = true;
             studentLearnedWords.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
@@ -582,10 +546,6 @@ function stateMachine(currentState){
             showAnsBtn.style.backgroundColor="#555500";
             nextWordBtn.disabled = false;
             nextWordBtn.style.backgroundColor="#DDDD00";
-            // correctBtn.disabled = false;
-            // correctBtn.style.backgroundColor="#00DD00";
-            // incorrectBtn.disabled = false;
-            // incorrectBtn.style.backgroundColor="#DD0000";
             saveBtn.disabled = false;
             saveBtn.style.backgroundColor="#DDDD00";
             break;
@@ -599,15 +559,8 @@ function stateMachine(currentState){
             }else{
                 messageToBeShown = messageToBeShown.concat('Your memorization skills are impressive! You should consider adding more verbs to your list.');
             }
-
-            messageToBeShown = messageToBeShown.concat('<br>There are no more words to show. Press RESET QUIZ to create a new quiz.');
-            
+            messageToBeShown = messageToBeShown.concat('<br>There are no more words to show. Press RESET QUIZ to create a new quiz.');           
             messageBoard.innerHTML = messageToBeShown; 
-
-            // newStudentBtn.disabled = true;
-            // newStudentBtn.style.backgroundColor="#555500";
-            // loadBtn.disabled = true;
-            // loadListBtn.disabled = true;
             studentLearnedWords.disabled = true;
             startBtn.disabled = true;
             startBtn.style.backgroundColor="#555500";
@@ -615,10 +568,6 @@ function stateMachine(currentState){
             showAnsBtn.style.backgroundColor="#555500";
             nextWordBtn.disabled = true;
             nextWordBtn.style.backgroundColor="#555500";
-            // correctBtn.disabled = true;
-            // correctBtn.style.backgroundColor="#005500";
-            // incorrectBtn.disabled = true;
-            // incorrectBtn.style.backgroundColor="#550000";
             saveBtn.disabled = false;
             saveBtn.style.backgroundColor="#DDDD00";
             break;
