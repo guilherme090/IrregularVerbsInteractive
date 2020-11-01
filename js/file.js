@@ -25,6 +25,7 @@ Labels that will store the student's data.
 
 let studentLearnedWords = document.querySelector('#learned-words');
 let pastSimpleCheckbox = document.querySelector('#include-past-simple');
+let pastParticipleCheckbox = document.querySelector('#include-past-participle');
 
 /* 
 ----------------------------------------------------------------------------------
@@ -44,8 +45,6 @@ function togglePastParticiple(){
         pastSimpleCheckbox.checked = true;
     }
 }
-
-let pastParticipleCheckbox = document.querySelector('#include-past-participle');
 
 // Message board
 
