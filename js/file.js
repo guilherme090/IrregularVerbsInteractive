@@ -414,19 +414,20 @@ Program resetting
 The program erases all data and becomes prepared to a new quiz.
 */ 
 
-const saveBtn = document.querySelector('#btn-save');
-saveBtn.onclick = function(){
-    
-    // Erase quiz log
-    quizLogBoard.innerHTML = 'QUIZ LOG:';
-    
-    stateMachine(states.STUDENT_REGISTERED);
-    wordNumber.innerHTML = 0;
-    infinitiveAnswer.innerHTML = '';
-    pastSimpleAnswer.value = '';
-    pastParticipleAnswer.value = '';
-    resetStudentScore();
-    updateStudentScore();
+const resetBtn = document.querySelector('#btn-reset');
+resetBtn.onclick = function(){
+    if(confirm('Are you sure you want to reset the quiz? You will lose all your current progress.')){
+        // Erase quiz log
+        quizLogBoard.innerHTML = 'QUIZ LOG:';
+            
+        stateMachine(states.STUDENT_REGISTERED);
+        wordNumber.innerHTML = 0;
+        infinitiveAnswer.innerHTML = '';
+        pastSimpleAnswer.value = '';
+        pastParticipleAnswer.value = '';
+        resetStudentScore();
+        updateStudentScore();
+    } 
 }
 
 /* 
@@ -455,7 +456,6 @@ forbidden functions (like starting a quiz without a verb list).
 const states = {
     STUDENT_REGISTERED: 'student-registered',
     QUIZ_STARTED_NO_ANSWER: 'quiz-started-no-answer', 
-    QUIZ_STARTED_ANSWER_SHOWN: 'quiz-started-answer-shown',
     QUIZ_STARTED_ANSWER_CORRECT: 'quiz-started-answer-correct',
     QUIZ_STARTED_ANSWER_INCORRECT: 'quiz-started-answer-incorrect',
     NO_MORE_WORDS: 'no-more-words'
@@ -478,8 +478,8 @@ function stateMachine(currentState){
             showAnsBtn.style.backgroundColor="#555500";
             nextWordBtn.disabled = true;
             nextWordBtn.style.backgroundColor="#555500";
-            saveBtn.disabled = true;
-            saveBtn.style.backgroundColor="#555500";
+            resetBtn.disabled = true;
+            resetBtn.style.backgroundColor="#555500";
             endQuizBtn.disabled = true;
             endQuizBtn.style.backgroundColor="#555500";
             pastSimpleCheckbox.checked = true;
@@ -500,8 +500,8 @@ function stateMachine(currentState){
             showAnsBtn.style.backgroundColor="#DDDD00";
             nextWordBtn.disabled = true;
             nextWordBtn.style.backgroundColor="#555500";
-            saveBtn.disabled = false;
-            saveBtn.style.backgroundColor="#DDDD00";
+            resetBtn.disabled = false;
+            resetBtn.style.backgroundColor="#DDDD00";
             endQuizBtn.disabled = false;
             endQuizBtn.style.backgroundColor="#DDDD00";
             pastSimpleCheckbox.disabled = true;
@@ -519,19 +519,6 @@ function stateMachine(currentState){
                 pastParticipleAnswer.disabled = false;
             }
             break;
-        case states.QUIZ_STARTED_ANSWER_SHOWN:
-            messageBoard.innerHTML = 'Was the given answer correct or incorrect?';
-            showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
-            studentLearnedWords.disabled = true;
-            startBtn.disabled = true;
-            startBtn.style.backgroundColor="#555500";
-            showAnsBtn.disabled = true;
-            showAnsBtn.style.backgroundColor="#555500";
-            nextWordBtn.disabled = false;
-            nextWordBtn.style.backgroundColor="#DDDD00";
-            saveBtn.disabled = false;
-            saveBtn.style.backgroundColor="#DDDD00";
-            break;
         case states.QUIZ_STARTED_ANSWER_CORRECT:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
             messageBoard.innerHTML = 'Congratulations! Your answer is correct. Click on NEXT WORD to proceed.';
@@ -543,8 +530,8 @@ function stateMachine(currentState){
             showAnsBtn.style.backgroundColor="#555500";
             nextWordBtn.disabled = false;
             nextWordBtn.style.backgroundColor="#DDDD00";
-            saveBtn.disabled = false;
-            saveBtn.style.backgroundColor="#DDDD00";
+            resetBtn.disabled = false;
+            resetBtn.style.backgroundColor="#DDDD00";
             endQuizBtn.disabled = false;
             endQuizBtn.style.backgroundColor="#DDDD00";
             break;
@@ -559,8 +546,8 @@ function stateMachine(currentState){
             showAnsBtn.style.backgroundColor="#555500";
             nextWordBtn.disabled = false;
             nextWordBtn.style.backgroundColor="#DDDD00";
-            saveBtn.disabled = false;
-            saveBtn.style.backgroundColor="#DDDD00";
+            resetBtn.disabled = false;
+            resetBtn.style.backgroundColor="#DDDD00";
             endQuizBtn.disabled = false;
             endQuizBtn.style.backgroundColor="#DDDD00";
             break;
@@ -583,8 +570,8 @@ function stateMachine(currentState){
             showAnsBtn.style.backgroundColor="#555500";
             nextWordBtn.disabled = true;
             nextWordBtn.style.backgroundColor="#555500";
-            saveBtn.disabled = false;
-            saveBtn.style.backgroundColor="#DDDD00";
+            resetBtn.disabled = false;
+            resetBtn.style.backgroundColor="#DDDD00";
             endQuizBtn.disabled = true;
             endQuizBtn.style.backgroundColor="#555500";
             break;
