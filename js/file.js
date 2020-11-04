@@ -64,6 +64,7 @@ let allLabels = document.getElementsByClassName('answers');
 let quizLogBoard = document.querySelector('#message-log');
 
 // Update functions
+
 function updateStudentScore(){
     if(aluno.words_total === 0){
         correctPct.innerHTML = '0.00';
@@ -397,7 +398,14 @@ nextWordBtn.onclick = function(){
         wordNumber.innerHTML = aluno.words_total + 1;
         stateMachine(states.QUIZ_STARTED_NO_ANSWER);
     }
-}
+};
+
+let endQuizBtn = document.querySelector('#btn-end');
+endQuizBtn.onclick = function(){
+    if(confirm('Are you sure you want to finish the quiz with your current score?')){
+        stateMachine(states.NO_MORE_WORDS);
+    }    
+};
 
 /* 
 ----------------------------------------------------------------------------------
@@ -472,6 +480,8 @@ function stateMachine(currentState){
             nextWordBtn.style.backgroundColor="#555500";
             saveBtn.disabled = true;
             saveBtn.style.backgroundColor="#555500";
+            endQuizBtn.disabled = true;
+            endQuizBtn.style.backgroundColor="#555500";
             pastSimpleCheckbox.checked = true;
             pastParticipleCheckbox.checked = true;
             pastSimpleCheckbox.disabled = false;
@@ -492,6 +502,8 @@ function stateMachine(currentState){
             nextWordBtn.style.backgroundColor="#555500";
             saveBtn.disabled = false;
             saveBtn.style.backgroundColor="#DDDD00";
+            endQuizBtn.disabled = false;
+            endQuizBtn.style.backgroundColor="#DDDD00";
             pastSimpleCheckbox.disabled = true;
             pastParticipleCheckbox.disabled = true;
             if(pastSimpleCheckbox.checked == false){
@@ -533,6 +545,8 @@ function stateMachine(currentState){
             nextWordBtn.style.backgroundColor="#DDDD00";
             saveBtn.disabled = false;
             saveBtn.style.backgroundColor="#DDDD00";
+            endQuizBtn.disabled = false;
+            endQuizBtn.style.backgroundColor="#DDDD00";
             break;
         case states.QUIZ_STARTED_ANSWER_INCORRECT:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
@@ -547,6 +561,8 @@ function stateMachine(currentState){
             nextWordBtn.style.backgroundColor="#DDDD00";
             saveBtn.disabled = false;
             saveBtn.style.backgroundColor="#DDDD00";
+            endQuizBtn.disabled = false;
+            endQuizBtn.style.backgroundColor="#DDDD00";
             break;
         case states.NO_MORE_WORDS:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
@@ -569,6 +585,8 @@ function stateMachine(currentState){
             nextWordBtn.style.backgroundColor="#555500";
             saveBtn.disabled = false;
             saveBtn.style.backgroundColor="#DDDD00";
+            endQuizBtn.disabled = true;
+            endQuizBtn.style.backgroundColor="#555500";
             break;
     }
 }
