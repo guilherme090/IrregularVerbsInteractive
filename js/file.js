@@ -554,7 +554,7 @@ function stateMachine(currentState){
         case states.NO_MORE_WORDS:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
             let messageToBeShown = 'Your score: ' + aluno.words_right + ' words out of ' + aluno.words_total + '. ';
-            if(aluno.words_right / aluno.words_total < 0.6){
+            if(aluno.words_total < 5 || (aluno.words_right / aluno.words_total < 0.6)){
                 messageToBeShown = messageToBeShown.concat('Keep working on your list. You will soon memorize a lot of words!');
             }else if(aluno.words_right / aluno.words_total < 0.9){
                 messageToBeShown = messageToBeShown.concat('You have done a great job! You learned many words from the list!');
