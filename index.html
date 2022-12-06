@@ -42,25 +42,25 @@
                 </div>
             </div>
 
-            <br>
-
             <!-- Quiz area -->
-            <div class="container" id="quiz-area">
-            <label>Word number: </label><label id="word-no"> 0</label>
-                <div class="container" id="quiz-labels">
-    
-                    <article id="message">
+            <span class="container" id="quiz-area">
+                <span id="wizard-container">
+                    <img class="character" id="wizard" src="css/images/wizard.png" width="350px" height="350px" alt="Wizard">
+                </span>
+                <span id="quiz-board-text">
+                    <span id="message">
                         Message Board.
-                    </article>
-
-                    <ul><label class="answers">Infinitive:</label> <label class="answers" id="answer-infinitive"></label></ul>
-                    <ul><label class="answers">Past Simple:</label> <input class="answers" type="text" id="answer-past-simple"></input></ul>
-                    <ul><label class="answers">Past Participle:</label> <input class="answers" type="text" id="answer-past-participle"></input></ul>
-    
-                </div>
+                    </span>
+                    <span class="container" id="quiz-labels">
+                        <label class="answers">Infinitive:</label> <label class="answers" id="answer-infinitive"></label><br>
+                        <label class="answers">Past Simple:</label> <input class="answers" type="text" id="answer-past-simple"></input><br>
+                        <label class="answers">Past Participle:</label> <input class="answers" type="text" id="answer-past-participle"></input>
+                    </span>
+                </span>    
+                <label>Word number: </label><label id="word-no"> 0</label>
                 <label>Correct Answers:</label> <label id="correct-pct">0.00</label><label>%</label>
-            </div>
-
+            </span>
+            
             <div class="container" id="final-buttons">
                 <div class="container" id="results">
                     <button class="btn-yellow" id="btn-show-answer">CHECK ANSWER</button>
@@ -80,6 +80,20 @@
                 <article id="message-log">
                     QUIZ LOG:
                 </article>
+                <table>
+                    <thead>
+                        <th>Infinitive</th>
+                        <th>Past Simple</th>
+                        <th>Past Participle</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Say</td>
+                            <td>Said</td>
+                            <td>Said</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>                
         </div>            
 
