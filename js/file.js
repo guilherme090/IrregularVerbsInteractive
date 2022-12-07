@@ -507,13 +507,13 @@ function stateMachine(currentState){
             endQuizBtn.css("background-color", "#DDDD00");
             pastSimpleCheckbox.prop("disabled", true);
             pastParticipleCheckbox.prop("disabled", true);
-            if(pastSimpleCheckbox.checked == false){
+            if(pastSimpleCheckbox.prop("checked") == false){
                 pastSimpleAnswer.val("---");
                 pastSimpleAnswer.prop("disabled", true);
             }else{
                 pastSimpleAnswer.prop("disabled", false);
             }
-            if(pastParticipleCheckbox.checked == false){
+            if(pastParticipleCheckbox.prop("checked") == false){
                 pastParticipleAnswer.val("---");
                 pastParticipleAnswer.prop("disabled", true);
             }else{
