@@ -379,20 +379,25 @@ function incorrectWord(){
 };
 
 let showAnsBtn = $('#btn-show-answer');
-showAnsBtn.click(function(){
+showAnsBtn.click(showAnswer);
+
+
+function showAnswer(){
     // Signal to the state machine that answer was shown
     if(isCorrectPastSimple(pastSimpleAnswer.val().toLowerCase(), listOfVerbs[shuffledIndex].pastSimple) &&
-       isCorrectPastParticiple(pastParticipleAnswer.val().toLowerCase(), listOfVerbs[shuffledIndex].pastParticiple) ){
-        correctWord();
-        stateMachine(states.QUIZ_STARTED_ANSWER_CORRECT);
+    isCorrectPastParticiple(pastParticipleAnswer.val().toLowerCase(), listOfVerbs[shuffledIndex].pastParticiple) ){
+    correctWord();
+    stateMachine(states.QUIZ_STARTED_ANSWER_CORRECT);
     }else{
-        incorrectWord();
-        stateMachine(states.QUIZ_STARTED_ANSWER_INCORRECT);
+    incorrectWord();
+    stateMachine(states.QUIZ_STARTED_ANSWER_INCORRECT);
     }
-});
+}
 
 let nextWordBtn = $('#btn-next-word');
-nextWordBtn.click(function(){
+nextWordBtn.click(nextWord);
+
+function nextWord(){
     // Check if all words were already taken. No new words to show.
     if(aluno.words_total >= Number(studentLearnedWords.val()))
     {
@@ -401,7 +406,27 @@ nextWordBtn.click(function(){
         wordNumber.text(aluno.words_total + 1);
         stateMachine(states.QUIZ_STARTED_NO_ANSWER);
     }
-});
+}
+
+// showAnsBtn and nextWordBtn are equivalent to pressing enter in the input boxes
+// nextWord() will be useful in future version of the game in which input boxes will be visible
+// together with the right or wrong message
+
+pastSimpleAnswer.keydown(search);
+pastParticipleAnswer.keydown(search);
+
+function search(pressedKey){
+    if(pressedKey.key === 'Enter'){
+        if(showAnsBtn.prop("disabled") == false){
+            showAnswer();
+        }
+        else if(nextWordBtn.prop("disabled") == false){
+            nextWord();
+        }
+    }
+}
+
+
 
 let endQuizBtn = $('#btn-end');
 endQuizBtn.click(function(){
