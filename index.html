@@ -28,7 +28,7 @@
                     <!-- Data of the student who is currently playing the game -->
 
                 <div>
-                    <label>Learned words: </label><input type="number" id="learned-words" min="1" max="100" value="1"></input>
+                    <label>Learned words: </label><input type="number" id="learned-words" min="1" max="100" value="5"></input>
                     <br>
 
                     <!-- Past Simple (label and checkbox) -->
@@ -53,8 +53,8 @@
                     </span>
                     <span class="container" id="quiz-labels">
                         <label class="answers">Infinitive:</label> <label class="answers" id="answer-infinitive"></label><br>
-                        <label class="answers">Past Simple:</label> <input class="answers" type="text" id="answer-past-simple"></input><br>
-                        <label class="answers">Past Participle:</label> <input class="answers" type="text" id="answer-past-participle"></input>
+                        <label class="answers">Past Simple:</label> <input class="answers" type="text" id="answer-past-simple" maxlength="20"></input><br>
+                        <label class="answers">Past Participle:</label> <input class="answers" type="text" id="answer-past-participle"  maxlength="20"></input>
                     </span>
                 </span>    
                 <label>Word number: </label><label id="word-no"> 0</label>
@@ -64,7 +64,6 @@
             <div class="container" id="final-buttons">
                 <div class="container" id="results">
                     <button class="btn-yellow" id="btn-show-answer">CHECK ANSWER</button>
-                    <button class="btn-yellow" id="btn-next-word">NEXT WORD</button>
                     <br><br>
                     <button class="btn-yellow" id="btn-start">START QUIZ</button>
                     <button class="btn-yellow" id="btn-reset">RESET QUIZ</button>
