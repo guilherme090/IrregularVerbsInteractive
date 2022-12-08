@@ -115,3 +115,16 @@ th {
     color: #777700;
     font-weight: bold;
 }
+
+.timer {
+    color: gold;
+    margin: 5px;
+}
+
+.correctAnswer{
+    color:lightgreen;
+}
+
+.incorrectAnswer{
+    color:red;
+}

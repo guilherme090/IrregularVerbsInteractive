@@ -365,6 +365,7 @@ function correctWord(){
     let columnPastSimple = $("<td>").text(pastSimpleAnswer.val().toLowerCase());
     let columnPastParticiple = $("<td>").text(pastParticipleAnswer.val().toLowerCase());
     let columnStatus = $("<td>").text("correct");
+    columnStatus.addClass("correctAnswer");
 
     row.append(columnInfinitive);
     row.append(columnPastSimple);
@@ -375,16 +376,27 @@ function correctWord(){
 
 };
 
-function incorrectWord(){
+function incorrectWord(pastSimpleCorrect, pastParticipleCorrect){
     aluno.words_total ++;
     console.log(aluno);
     updateStudentScore();
 
     let row = $("<tr>");
+    
     let columnInfinitive = $("<td>").text(infinitiveAnswer.text());
+    
     let columnPastSimple = $("<td>").text(pastSimpleAnswer.val().toLowerCase());
+    if(!pastSimpleCorrect){
+        columnPastSimple.addClass("incorrectAnswer");
+    }
+
     let columnPastParticiple = $("<td>").text(pastParticipleAnswer.val().toLowerCase());
+    if(!pastParticipleCorrect){
+        columnPastParticiple.addClass("incorrectAnswer");
+    }
+    
     let columnStatus = $("<td>").text("incorrect");
+    columnStatus.addClass("incorrectAnswer");
 
     row.append(columnInfinitive);
     row.append(columnPastSimple);
@@ -400,13 +412,19 @@ showAnsBtn.click(showAnswer);
 
 
 function showAnswer(){
+    // separate answer to see exactly which are incorrect, if any.
+    // this will be used to color Quiz Log.
+
+    let pastSimpleCorrect = isCorrectPastSimple(pastSimpleAnswer.val().toLowerCase(), listOfVerbs[shuffledIndex].pastSimple);
+    
+    let pastParticipleCorrect = isCorrectPastParticiple(pastParticipleAnswer.val().toLowerCase(), listOfVerbs[shuffledIndex].pastParticiple);
+
     // Signal to the state machine that answer was shown
-    if(isCorrectPastSimple(pastSimpleAnswer.val().toLowerCase(), listOfVerbs[shuffledIndex].pastSimple) &&
-    isCorrectPastParticiple(pastParticipleAnswer.val().toLowerCase(), listOfVerbs[shuffledIndex].pastParticiple) ){
+    if( pastSimpleCorrect && pastParticipleCorrect ) {
     correctWord();
     stateMachine(states.QUIZ_STARTED_ANSWER_CORRECT);
     }else{
-    incorrectWord();
+    incorrectWord(pastSimpleCorrect, pastParticipleCorrect);
     stateMachine(states.QUIZ_STARTED_ANSWER_INCORRECT);
     }
 }
@@ -560,7 +578,7 @@ function stateMachine(currentState){
             break;
         case states.QUIZ_STARTED_ANSWER_CORRECT:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
-            messageBoard.text('Congratulations! Your answer is correct. Click on NEXT WORD to proceed.');
+            messageBoard.text('Congratulations! Your answer is correct. Next word in 3 seconds...');
             showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
             studentLearnedWords.prop("disabled", true);
             startBtn.prop("disabled", true);
@@ -573,7 +591,7 @@ function stateMachine(currentState){
             resetBtn.css("background-color", "#DDDD00");
             endQuizBtn.prop("disabled", false);
             endQuizBtn.css("background-color", "#DDDD00");
-            nextWordBtn.focus();
+            waitForNextWord(3);
             break;
         case states.QUIZ_STARTED_ANSWER_INCORRECT:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
@@ -590,7 +608,7 @@ function stateMachine(currentState){
             resetBtn.css("background-color", "#DDDD00");
             endQuizBtn.prop("disabled", false);
             endQuizBtn.css("background-color", "#DDDD00");
-            nextWordBtn.focus();
+            waitForNextWord(3);
             break;
         case states.NO_MORE_WORDS:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
@@ -602,7 +620,7 @@ function stateMachine(currentState){
             }else{
                 messageToBeShown = messageToBeShown.concat('Your memorization skills are impressive! You should consider adding more verbs to your list.');
             }
-            messageToBeShown = messageToBeShown.concat('There are no more words to show. Press RESET QUIZ to create a new quiz.');           
+            messageToBeShown = messageToBeShown.concat('There are no more words to show. Check the Quiz Log below to see the answers you gave. Press RESET QUIZ to create a new quiz.');           
             messageBoard.text(messageToBeShown); 
             studentLearnedWords.prop("disabled", true);
             startBtn.prop("disabled", true);
@@ -616,5 +634,20 @@ function stateMachine(currentState){
             endQuizBtn.prop("disabled", true);
             endQuizBtn.css("background-color", "#555500");
             break;
-    }
+    }  
+}
+
+function waitForNextWord(time){
+    let seconds = $("<div>").text(time + "...");
+    seconds.addClass("timer");
+    messageBoard.append(seconds);
+    let timer = setInterval(function(){
+        time--;
+        seconds.text(time + "...");
+        if(time<1){
+            clearInterval(timer);
+            seconds.remove();
+            nextWord();
+        }
+    }, 1000);
 }
