@@ -121,10 +121,14 @@ th {
     margin: 5px;
 }
 
-.correctAnswer{
+.messageBoardText {
+    margin: 3px;
+}
+
+.correctAnswer {
     color:lightgreen;
 }
 
-.incorrectAnswer{
+.incorrectAnswer {
     color:red;
 }
