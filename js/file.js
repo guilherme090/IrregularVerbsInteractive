@@ -437,13 +437,8 @@ function search(pressedKey){
         if(showAnsBtn.prop("disabled") == false){
             showAnswer();
         }
-        else if(nextWordBtn.prop("disabled") == false){
-            nextWord();
-        }
     }
 }
-
-
 
 let endQuizBtn = $('#btn-end');
 endQuizBtn.click(function(){
@@ -561,6 +556,7 @@ function stateMachine(currentState){
             }else{
                 pastParticipleAnswer.prop("disabled", false);
             }
+            pastSimpleAnswer.focus();
             break;
         case states.QUIZ_STARTED_ANSWER_CORRECT:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
@@ -577,6 +573,7 @@ function stateMachine(currentState){
             resetBtn.css("background-color", "#DDDD00");
             endQuizBtn.prop("disabled", false);
             endQuizBtn.css("background-color", "#DDDD00");
+            nextWordBtn.focus();
             break;
         case states.QUIZ_STARTED_ANSWER_INCORRECT:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
@@ -593,6 +590,7 @@ function stateMachine(currentState){
             resetBtn.css("background-color", "#DDDD00");
             endQuizBtn.prop("disabled", false);
             endQuizBtn.css("background-color", "#DDDD00");
+            nextWordBtn.focus();
             break;
         case states.NO_MORE_WORDS:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
