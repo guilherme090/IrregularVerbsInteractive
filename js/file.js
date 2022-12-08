@@ -1,4 +1,4 @@
-/*
+ /*
 ----------------------------------------------------------------------------------
 Objects and variables
 ----------------------------------------------------------------------------------
@@ -23,9 +23,9 @@ Labels that will store the student's data.
 
 // Student data
 
-let studentLearnedWords = document.querySelector('#learned-words');
-let pastSimpleCheckbox = document.querySelector('#include-past-simple');
-let pastParticipleCheckbox = document.querySelector('#include-past-participle');
+let studentLearnedWords = $('#learned-words');
+let pastSimpleCheckbox = $('#include-past-simple');
+let pastParticipleCheckbox = $('#include-past-participle');
 
 /* 
 ----------------------------------------------------------------------------------
@@ -35,42 +35,43 @@ Activated when labels are clicked. If both are unchecked, check the other one.
 */ 
 
 function togglePastSimple(){
-    if(pastSimpleCheckbox.checked == false && pastParticipleCheckbox.checked == false){
-        pastParticipleCheckbox.checked = true;
+    if(!pastSimpleCheckbox.prop("checked") && !pastParticipleCheckbox.prop("checked")){
+        pastParticipleCheckbox.prop("checked", "true");
     }
 }
 
 function togglePastParticiple(){
-    if(pastSimpleCheckbox.checked == false && pastParticipleCheckbox.checked == false){
-        pastSimpleCheckbox.checked = true;
+    if(!pastSimpleCheckbox.prop("checked") && !pastParticipleCheckbox.prop("checked")){
+        pastSimpleCheckbox.prop("checked", "true");
     }
 }
 
 // Message board
 
-let messageBoard = document.querySelector('#message');
+let messageBoard = $('#message');
 
 // Quiz area
 
-let wordNumber = document.querySelector('#word-no');
-let correctPct = document.querySelector('#correct-pct');
-let infinitiveAnswer = document.querySelector('#answer-infinitive');
-let pastSimpleAnswer = document.querySelector('#answer-past-simple');
-let pastParticipleAnswer = document.querySelector('#answer-past-participle');
-let allLabels = document.getElementsByClassName('answers');
+let wordNumber = $('#word-no');
+let correctPct = $('#correct-pct');
+let infinitiveAnswer = $('#answer-infinitive');
+let pastSimpleAnswer = $('#answer-past-simple');
+let pastParticipleAnswer = $('#answer-past-participle');
+let allLabels = $('.answers');
+console.log(allLabels)
 
 // Quiz log board
 
-let quizLogBoard = document.querySelector('#message-log');
+let quizLogBoard = $('#message-log');
 
 // Update functions
 
 function updateStudentScore(){
     if(aluno.words_total === 0){
-        correctPct.innerHTML = '0.00';
+        correctPct.text("0.00");
     }
     else{
-        correctPct.innerHTML = (aluno.words_right / aluno.words_total * 100).toFixed(2); 
+        correctPct.text((aluno.words_right / aluno.words_total * 100).toFixed(2)); 
     } 
 }
 
@@ -242,9 +243,9 @@ let shuffledIndex = 0; // Initialize shuffled number
 function shuffleVerb(currentListOfVerbs, currentWordCount){
     // Shuffled number is a number between 0 and the end of the verb array (excluding verbs already taken)
     // the number of verbs that were already taken is the current wordCount - 1.
-    let takenVerbs = Number(currentWordCount.innerHTML) - 1;
+    let takenVerbs = Number(currentWordCount.text()) - 1;
     console.log('Word count = ' + takenVerbs);
-    let shuffledNumber = Math.floor(Math.random() * (Number(studentLearnedWords.value) - takenVerbs)); 
+    let shuffledNumber = Math.floor(Math.random() * (Number(studentLearnedWords.val()) - takenVerbs)); 
     console.log('shuffled number = ' + shuffledNumber);
     // Scan the whole list of verbs to point to a non-taken verb in sorted position
     for(let i = 0; i < shuffledNumber || currentListOfVerbs[i].taken === true ; i++){
@@ -260,14 +261,16 @@ function shuffleVerb(currentListOfVerbs, currentWordCount){
 }
 
 function showInfinitive(theInfinitive, thePastSimple, thePastParticiple, theListOfVerbs, theIndex){
-    theInfinitive.innerHTML = theListOfVerbs[theIndex].infinitive;
-    thePastSimple.value = '';
-    thePastParticiple.value = '';
+    theInfinitive.text(theListOfVerbs[theIndex].infinitive);
+    thePastSimple.val("");
+    thePastParticiple.val("");
 }
 
 function showPast(theInfinitive, thePastSimple, thePastParticiple, theListOfVerbs, theIndex){
-    messageBoard.innerHTML = messageBoard.innerHTML + '<br />' + '<br />' +
+    let theMessage = messageBoard.text() +
     '(' + theListOfVerbs[theIndex].infinitive + ' - ' + theListOfVerbs[theIndex].pastSimple + ' - ' + theListOfVerbs[theIndex].pastParticiple + ')';
+
+    messageBoard.text(theMessage);
 }
 
 /*
@@ -293,22 +296,22 @@ verbsRead.forEach(verbForm => {
 
 console.log(listOfVerbs);
 
-let startBtn = document.querySelector('#btn-start');
-startBtn.onclick = function(){
+let startBtn = $('#btn-start');
+startBtn.click(function(){
     // Only start the quiz if there is a list of verbs loaded to the system.
     if(listOfVerbs.length > 0){
-        wordNumber.innerHTML = 1;
+        wordNumber.text(1);
         resetVerbList(listOfVerbs);
         // Initialize score
         resetStudentScore();
         updateStudentScore();
-        logMessage = 'QUIZ LOG:<br><br>';
-        if(studentLearnedWords.value < 1){
+        logMessage = 'QUIZ LOG:';
+        if(studentLearnedWords.val() < 1){
             // invalid number of learned words
-            studentLearnedWords.value = 1;
-        }else if(studentLearnedWords.value > listOfVerbs.length){
+            studentLearnedWords.val(1);
+        }else if(studentLearnedWords.val() > listOfVerbs.length){
             // invalid number of learned words
-            studentLearnedWords.value = listOfVerbs.length;
+            studentLearnedWords.val() = listOfVerbs.length;
         }
 
         stateMachine(states.QUIZ_STARTED_NO_ANSWER);
@@ -317,7 +320,7 @@ startBtn.onclick = function(){
         alert('Cannot start quiz because there are no verbs to be shown. Load a valid list of verbs to the application.');
     }
     
-}
+});
 
 /*
 ----------------------------------------------------------------------------------
@@ -330,7 +333,7 @@ Ex: got/gotten will compare the user's response to both got and gotten.
 
 function isCorrectPastSimple(userPastSimple, programPastSimple){
     // In case the program is not checking past simple, say it is correct. 
-    if(pastSimpleCheckbox.checked == false){
+    if(pastSimpleCheckbox.prop("checked") == false){
         return true;
     }
     let correctPastSimple = programPastSimple.split('/'); // all possibilities for past simple
@@ -344,7 +347,7 @@ function isCorrectPastSimple(userPastSimple, programPastSimple){
 
 function isCorrectPastParticiple(userPastParticiple, programPastParticiple){
     // In case the program is not checking past participle, say it is correct. 
-    if(pastParticipleCheckbox.checked == false){
+    if(pastParticipleCheckbox.prop("checked") == false){
         return true;
     }
     let correctPastParticiple = programPastParticiple.split('/'); // all possibilities for past simple
@@ -361,51 +364,51 @@ function correctWord(){
     aluno.words_total ++;
     console.log(aluno);
     updateStudentScore();
-    logMessage = logMessage.concat('| ' + infinitiveAnswer.innerHTML + ' | ' + 
-        pastSimpleAnswer.value.toLowerCase() + ' | ' + pastParticipleAnswer.value.toLowerCase() + ' |' + ' >>> (correct)' + '<br>');
-    quizLogBoard.innerHTML = logMessage;
+    logMessage = logMessage.concat('| ' + infinitiveAnswer.text() + ' | ' + 
+        pastSimpleAnswer.val().toLowerCase() + ' | ' + pastParticipleAnswer.val().toLowerCase() + ' |' + ' >>> (correct)' + '');
+    quizLogBoard.text(logMessage);
 };
 
 function incorrectWord(){
     aluno.words_total ++;
     console.log(aluno);
     updateStudentScore();
-    logMessage = logMessage.concat('*| ' + infinitiveAnswer.innerHTML + ' | ' + 
-    pastSimpleAnswer.value.toLowerCase() + ' | ' + pastParticipleAnswer.value.toLowerCase() + ' |' + ' >>> (incorrect)' + '<br>');
-    quizLogBoard.innerHTML = logMessage;
+    logMessage = logMessage.concat('*| ' + infinitiveAnswer.text() + ' | ' + 
+    pastSimpleAnswer.val().toLowerCase() + ' | ' + pastParticipleAnswer.val().toLowerCase() + ' |' + ' >>> (incorrect)' + '');
+    quizLogBoard.text(logMessage);
 };
 
-let showAnsBtn = document.querySelector('#btn-show-answer');
-showAnsBtn.onclick = function(){
+let showAnsBtn = $('#btn-show-answer');
+showAnsBtn.click(function(){
     // Signal to the state machine that answer was shown
-    if(isCorrectPastSimple(pastSimpleAnswer.value.toLowerCase(), listOfVerbs[shuffledIndex].pastSimple) &&
-       isCorrectPastParticiple(pastParticipleAnswer.value.toLowerCase(), listOfVerbs[shuffledIndex].pastParticiple) ){
+    if(isCorrectPastSimple(pastSimpleAnswer.val().toLowerCase(), listOfVerbs[shuffledIndex].pastSimple) &&
+       isCorrectPastParticiple(pastParticipleAnswer.val().toLowerCase(), listOfVerbs[shuffledIndex].pastParticiple) ){
         correctWord();
         stateMachine(states.QUIZ_STARTED_ANSWER_CORRECT);
     }else{
         incorrectWord();
         stateMachine(states.QUIZ_STARTED_ANSWER_INCORRECT);
     }
-};
+});
 
-let nextWordBtn = document.querySelector('#btn-next-word');
-nextWordBtn.onclick = function(){
+let nextWordBtn = $('#btn-next-word');
+nextWordBtn.click(function(){
     // Check if all words were already taken. No new words to show.
-    if(aluno.words_total >= Number(studentLearnedWords.value))
+    if(aluno.words_total >= Number(studentLearnedWords.val()))
     {
         stateMachine(states.NO_MORE_WORDS);
     } else{
-        wordNumber.innerHTML = aluno.words_total + 1;
+        wordNumber.text(aluno.words_total + 1);
         stateMachine(states.QUIZ_STARTED_NO_ANSWER);
     }
-};
+});
 
-let endQuizBtn = document.querySelector('#btn-end');
-endQuizBtn.onclick = function(){
-    if(confirm('Are you sure you want to finish the quiz with your current score?')){
+let endQuizBtn = $('#btn-end');
+endQuizBtn.click(function(){
+    if(true){
         stateMachine(states.NO_MORE_WORDS);
     }    
-};
+});
 
 /* 
 ----------------------------------------------------------------------------------
@@ -414,21 +417,19 @@ Program resetting
 The program erases all data and becomes prepared to a new quiz.
 */ 
 
-const resetBtn = document.querySelector('#btn-reset');
-resetBtn.onclick = function(){
-    if(confirm('Are you sure you want to reset the quiz? You will lose all your current progress.')){
-        // Erase quiz log
-        quizLogBoard.innerHTML = 'QUIZ LOG:';
-            
-        stateMachine(states.STUDENT_REGISTERED);
-        wordNumber.innerHTML = 0;
-        infinitiveAnswer.innerHTML = '';
-        pastSimpleAnswer.value = '';
-        pastParticipleAnswer.value = '';
-        resetStudentScore();
-        updateStudentScore();
-    } 
-}
+const resetBtn = $('#btn-reset');
+resetBtn.click(function(){
+    // Erase quiz log
+    quizLogBoard.text('QUIZ LOG:');
+        
+    stateMachine(states.STUDENT_REGISTERED);
+    wordNumber.text(0);
+    infinitiveAnswer.text("");
+    pastSimpleAnswer.val("");
+    pastParticipleAnswer.val("");
+    resetStudentScore();
+    updateStudentScore();
+});
 
 /* 
 ----------------------------------------------------------------------------------
@@ -470,110 +471,110 @@ function stateMachine(currentState){
     switch(currentState){
         case states.STUDENT_REGISTERED:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
-            messageBoard.innerHTML = 'Choose how many words from the list you already know in the "learned words" box and start the quiz anytime.';
-            studentLearnedWords.disabled = false;
-            startBtn.disabled = false;
-            startBtn.style.backgroundColor="#DDDD00";
-            showAnsBtn.disabled = true;
-            showAnsBtn.style.backgroundColor="#555500";
-            nextWordBtn.disabled = true;
-            nextWordBtn.style.backgroundColor="#555500";
-            resetBtn.disabled = true;
-            resetBtn.style.backgroundColor="#555500";
-            endQuizBtn.disabled = true;
-            endQuizBtn.style.backgroundColor="#555500";
-            pastSimpleCheckbox.checked = true;
-            pastParticipleCheckbox.checked = true;
-            pastSimpleCheckbox.disabled = false;
-            pastParticipleCheckbox.disabled = false;
+            messageBoard.text('Choose how many words from the list you already know in the "learned words" box and start the quiz anytime.');
+            studentLearnedWords.prop("disabled", false);
+            startBtn.prop("disabled", false);
+            startBtn.css("background-color","#DDDD00");
+            showAnsBtn.prop("disabled", true);
+            showAnsBtn.css("background-color","#555500");
+            nextWordBtn.prop("disabled", true);
+            nextWordBtn.css("background-color","#555500");
+            resetBtn.prop("disabled", true);
+            resetBtn.css("background-color","#555500");
+            endQuizBtn.prop("disabled", true);
+            endQuizBtn.css("background-color","#555500");
+            pastSimpleCheckbox.prop("checked", true);
+            pastParticipleCheckbox.prop("checked", true);
+            pastSimpleCheckbox.prop("disabled", false);
+            pastParticipleCheckbox.prop("disabled", false);
             break;
         case states.QUIZ_STARTED_NO_ANSWER:
             setLabelVisibility('visible'); // Show verbs. Student needs to write the answers
-            messageBoard.innerHTML = '';
+            messageBoard.text('');
             shuffledIndex = shuffleVerb(listOfVerbs, wordNumber);
             console.log(shuffledIndex);
             showInfinitive(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
-            studentLearnedWords.disabled = true;
-            startBtn.disabled = true;
-            startBtn.style.backgroundColor="#555500";
-            showAnsBtn.disabled = false;
-            showAnsBtn.style.backgroundColor="#DDDD00";
-            nextWordBtn.disabled = true;
-            nextWordBtn.style.backgroundColor="#555500";
-            resetBtn.disabled = false;
-            resetBtn.style.backgroundColor="#DDDD00";
-            endQuizBtn.disabled = false;
-            endQuizBtn.style.backgroundColor="#DDDD00";
-            pastSimpleCheckbox.disabled = true;
-            pastParticipleCheckbox.disabled = true;
+            studentLearnedWords.prop("disabled", true);
+            startBtn.prop("disabled", true);
+            startBtn.css("background-color", "#555500");
+            showAnsBtn.prop("disabled", false);
+            showAnsBtn.css("background-color", "#DDDD00");
+            nextWordBtn.prop("disabled", true);
+            nextWordBtn.css("background-color", "#555500");
+            resetBtn.prop("disabled", false);
+            resetBtn.css("background-color", "#DDDD00");
+            endQuizBtn.prop("disabled", false);
+            endQuizBtn.css("background-color", "#DDDD00");
+            pastSimpleCheckbox.prop("disabled", true);
+            pastParticipleCheckbox.prop("disabled", true);
             if(pastSimpleCheckbox.checked == false){
-                pastSimpleAnswer.value = '---';
-                pastSimpleAnswer.disabled = true;
+                pastSimpleAnswer.val("---");
+                pastSimpleAnswer.prop("disabled", true);
             }else{
-                pastSimpleAnswer.disabled = false;
+                pastSimpleAnswer.prop("disabled", false);
             }
             if(pastParticipleCheckbox.checked == false){
-                pastParticipleAnswer.value = '---';
-                pastParticipleAnswer.disabled = true;
+                pastParticipleAnswer.val("---");
+                pastParticipleAnswer.prop("disabled", true);
             }else{
-                pastParticipleAnswer.disabled = false;
+                pastParticipleAnswer.prop("disabled", false);
             }
             break;
         case states.QUIZ_STARTED_ANSWER_CORRECT:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
-            messageBoard.innerHTML = 'Congratulations! Your answer is correct. Click on NEXT WORD to proceed.';
+            messageBoard.text('Congratulations! Your answer is correct. Click on NEXT WORD to proceed.');
             showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
-            studentLearnedWords.disabled = true;
-            startBtn.disabled = true;
-            startBtn.style.backgroundColor="#555500";
-            showAnsBtn.disabled = true;
-            showAnsBtn.style.backgroundColor="#555500";
-            nextWordBtn.disabled = false;
-            nextWordBtn.style.backgroundColor="#DDDD00";
-            resetBtn.disabled = false;
-            resetBtn.style.backgroundColor="#DDDD00";
-            endQuizBtn.disabled = false;
-            endQuizBtn.style.backgroundColor="#DDDD00";
+            studentLearnedWords.prop("disabled", true);
+            startBtn.prop("disabled", true);
+            startBtn.css("background-color", "#555500");
+            showAnsBtn.prop("disabled", true);
+            showAnsBtn.css("background-color", "#555500");
+            nextWordBtn.prop("disabled", false);
+            nextWordBtn.css("background-color", "#DDDD00");
+            resetBtn.prop("disabled", false);
+            resetBtn.css("background-color", "#DDDD00");
+            endQuizBtn.prop("disabled", false);
+            endQuizBtn.css("background-color", "#DDDD00");
             break;
         case states.QUIZ_STARTED_ANSWER_INCORRECT:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
-            messageBoard.innerHTML = 'Unfortunately, your answer is incorrect. Click on NEXT WORD to proceed.';
+            messageBoard.text('Unfortunately, your answer is incorrect. Click on NEXT WORD to proceed.');
             showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
-            studentLearnedWords.disabled = true;
-            startBtn.disabled = true;
-            startBtn.style.backgroundColor="#555500";
-            showAnsBtn.disabled = true;
-            showAnsBtn.style.backgroundColor="#555500";
-            nextWordBtn.disabled = false;
-            nextWordBtn.style.backgroundColor="#DDDD00";
-            resetBtn.disabled = false;
-            resetBtn.style.backgroundColor="#DDDD00";
-            endQuizBtn.disabled = false;
-            endQuizBtn.style.backgroundColor="#DDDD00";
+            studentLearnedWords.prop("disabled", true);
+            startBtn.prop("disabled", true);
+            startBtn.css("background-color", "#555500");
+            showAnsBtn.prop("disabled", true);
+            showAnsBtn.css("background-color", "#555500");
+            nextWordBtn.prop("disabled", false);
+            nextWordBtn.css("background-color", "#DDDD00");
+            resetBtn.prop("disabled", false);
+            resetBtn.css("background-color", "#DDDD00");
+            endQuizBtn.prop("disabled", false);
+            endQuizBtn.css("background-color", "#DDDD00");
             break;
         case states.NO_MORE_WORDS:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
             let messageToBeShown = 'Your score: ' + aluno.words_right + ' words out of ' + aluno.words_total + '. ';
-            if(aluno.words_total <= 5 || (aluno.words_right / aluno.words_total < 0.6)){
+            if(aluno.words_right / aluno.words_total < 0.6){
                 messageToBeShown = messageToBeShown.concat('Keep working on your list. You will soon memorize a lot of words!');
             }else if(aluno.words_right / aluno.words_total < 0.9){
                 messageToBeShown = messageToBeShown.concat('You have done a great job! You learned many words from the list!');
             }else{
                 messageToBeShown = messageToBeShown.concat('Your memorization skills are impressive! You should consider adding more verbs to your list.');
             }
-            messageToBeShown = messageToBeShown.concat('<br>There are no more words to show. Press RESET QUIZ to create a new quiz.');           
-            messageBoard.innerHTML = messageToBeShown; 
-            studentLearnedWords.disabled = true;
-            startBtn.disabled = true;
-            startBtn.style.backgroundColor="#555500";
-            showAnsBtn.disabled = true;
-            showAnsBtn.style.backgroundColor="#555500";
-            nextWordBtn.disabled = true;
-            nextWordBtn.style.backgroundColor="#555500";
-            resetBtn.disabled = false;
-            resetBtn.style.backgroundColor="#DDDD00";
-            endQuizBtn.disabled = true;
-            endQuizBtn.style.backgroundColor="#555500";
+            messageToBeShown = messageToBeShown.concat('There are no more words to show. Press RESET QUIZ to create a new quiz.');           
+            messageBoard.text(messageToBeShown); 
+            studentLearnedWords.prop("disabled", true);
+            startBtn.prop("disabled", true);
+            startBtn.css("background-color", "#555500");
+            showAnsBtn.prop("disabled", true);
+            showAnsBtn.css("background-color", "#555500");
+            nextWordBtn.prop("disabled", true);
+            nextWordBtn.css("background-color", "#555500");
+            resetBtn.prop("disabled", false);
+            resetBtn.css("background-color", "#DDDD00");
+            endQuizBtn.prop("disabled", true);
+            endQuizBtn.css("background-color", "#555500");
             break;
     }
 }

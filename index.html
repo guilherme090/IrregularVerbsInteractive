@@ -4,87 +4,102 @@
         <meta charset="utf-8">
         <title>Irregular Verbs Quiz</title>
         <link rel="stylesheet" href="css/style.css">
-        <body>
-            <div class="container" id="introduction-text">
-                <img class="title-text" src="css/images/irregular-verbs-title.png" alt="Irregular Verbs Quiz" width="1000" height="250">
-                <p>What do you think is the best way to study irregular verbs? Your studies will 
-                    be more effective if you start learning the ones that are more often encountered 
-                    in the English language and then gradually move on to the ones that are less used 
-                    until your vocabulary is as good as you want it to be.
-                    <br><br>
-                    Study the ranked irregular verbs list by clicking 
-                    <a href="https://www.geisteswissenschaften.fu-berlin.de/we06/arbeitsbereiche/didaktik_des_englischen/primary/buecher/IrregVerbs/index.html">here</a> 
-                    and practice your vocabulary with the quiz below.   
-                </p>
-            </div>
-            <br>
-            <div class="container" id="application">
-
-                <!-- Number of learned words to be included in the shuffling process -->
-    
-                <div class="container" type="file" id="student-data">
-    
-                        <!-- Data of the student who is currently playing the game -->
-    
-                    <div>
-                        <label>Learned words: </label><input type="number" id="learned-words" min="1" max="100" value="1"></input>
-                        <br>
-    
-                        <!-- Past Simple (label and checkbox) -->
-                        <input type="checkbox" id="include-past-simple" onclick="togglePastSimple()">
-                        <label>Include Past Simple</label> 
-    
-                        <!-- Past Participle (label and checkbox) -->
-                        <input type="checkbox" id="include-past-participle" onclick="togglePastParticiple()">
-                        <label>Include Past Participle</label>
-                        
-                    </div>
-                </div>
-    
-                <br>
-    
-                <!-- Quiz area -->
-                <div class="container" id="quiz-area">
-                <label>Word number: </label><label id="word-no"> 0</label>
-                    <div class="container" id="quiz-labels">
-       
-                        <article id="message">
-                            Message Board.
-                        </article>
-    
-                        <ul><label class="answers">Infinitive:</label> <label class="answers" id="answer-infinitive"></label></ul>
-                        <ul><label class="answers">Past Simple:</label> <input class="answers" type="text" id="answer-past-simple"></input></ul>
-                        <ul><label class="answers">Past Participle:</label> <input class="answers" type="text" id="answer-past-participle"></input></ul>
-        
-                    </div>
-                    <label>Correct Answers:</label> <label id="correct-pct">0.00</label><label>%</label>
-                </div>
-    
-                <div class="container" id="final-buttons">
-                    <div class="container" id="results">
-                        <button class="btn-yellow" id="btn-show-answer">CHECK ANSWER</button>
-                        <button class="btn-yellow" id="btn-next-word">NEXT WORD</button>
-                        <br><br>
-                        <button class="btn-yellow" id="btn-start">START QUIZ</button>
-                        <button class="btn-yellow" id="btn-reset">RESET QUIZ</button>
-                        <button class="btn-yellow" id="btn-end">END QUIZ</button>
-                    </div>
-                </div>
-                
-                <br>
-    
-                <!-- Quiz log -->
-    
-                <div class="container" id="quiz-log">
-                    <article id="message-log">
-                        QUIZ LOG:
-                    </article>
-                </div>                
-            </div>            
-
-            <!-- Controlling index.html itself -->
-            <script src="js/file.js"></script> 
-            
-        </body>
     </head>
+    <body>
+        <div class="container" id="introduction-text">
+            <img class="title-text" src="css/images/irregular-verbs-title.png" alt="Irregular Verbs Quiz" width="1000" height="250">
+            <p>What do you think is the best way to study irregular verbs? Your studies will 
+                be more effective if you start learning the ones that are more often encountered 
+                in the English language and then gradually move on to the ones that are less used 
+                until your vocabulary is as good as you want it to be.
+                <br><br>
+                Study the ranked irregular verbs list by clicking 
+                <a href="https://www.geisteswissenschaften.fu-berlin.de/we06/arbeitsbereiche/didaktik_des_englischen/primary/buecher/IrregVerbs/index.html">here</a> 
+                and practice your vocabulary with the quiz below.   
+            </p>
+        </div>
+        <br>
+        <div class="container" id="application">
+
+            <!-- Number of learned words to be included in the shuffling process -->
+
+            <div class="container" type="file" id="student-data">
+
+                    <!-- Data of the student who is currently playing the game -->
+
+                <div>
+                    <label>Learned words: </label><input type="number" id="learned-words" min="1" max="100" value="1"></input>
+                    <br>
+
+                    <!-- Past Simple (label and checkbox) -->
+                    <input type="checkbox" id="include-past-simple" onclick="togglePastSimple()">
+                    <label>Include Past Simple</label> 
+
+                    <!-- Past Participle (label and checkbox) -->
+                    <input type="checkbox" id="include-past-participle" onclick="togglePastParticiple()">
+                    <label>Include Past Participle</label>
+                    
+                </div>
+            </div>
+
+            <!-- Quiz area -->
+            <span class="container" id="quiz-area">
+                <span id="wizard-container">
+                    <img class="character" id="wizard" src="css/images/wizard.png" width="350px" height="350px" alt="Wizard">
+                </span>
+                <span id="quiz-board-text">
+                    <span id="message">
+                        Message Board.
+                    </span>
+                    <span class="container" id="quiz-labels">
+                        <label class="answers">Infinitive:</label> <label class="answers" id="answer-infinitive"></label><br>
+                        <label class="answers">Past Simple:</label> <input class="answers" type="text" id="answer-past-simple"></input><br>
+                        <label class="answers">Past Participle:</label> <input class="answers" type="text" id="answer-past-participle"></input>
+                    </span>
+                </span>    
+                <label>Word number: </label><label id="word-no"> 0</label>
+                <label>Correct Answers:</label> <label id="correct-pct">0.00</label><label>%</label>
+            </span>
+            
+            <div class="container" id="final-buttons">
+                <div class="container" id="results">
+                    <button class="btn-yellow" id="btn-show-answer">CHECK ANSWER</button>
+                    <button class="btn-yellow" id="btn-next-word">NEXT WORD</button>
+                    <br><br>
+                    <button class="btn-yellow" id="btn-start">START QUIZ</button>
+                    <button class="btn-yellow" id="btn-reset">RESET QUIZ</button>
+                    <button class="btn-yellow" id="btn-end">END QUIZ</button>
+                </div>
+            </div>
+            
+            <br>
+
+            <!-- Quiz log -->
+
+            <div class="container" id="quiz-log">
+                <article id="message-log">
+                    QUIZ LOG:
+                </article>
+                <table>
+                    <thead>
+                        <th>Infinitive</th>
+                        <th>Past Simple</th>
+                        <th>Past Participle</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Say</td>
+                            <td>Said</td>
+                            <td>Said</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>                
+        </div>            
+
+        <!-- Controlling index.html itself -->
+        <script src="js/jquery.js"></script> 
+        <script src="js/file.js"></script> 
+        
+    </body>
 </html>

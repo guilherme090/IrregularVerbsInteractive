@@ -1,9 +1,17 @@
 body{
-    background-color: rgba(0, 0, 0, 1);
-    font-family: Arial, Helvetica, sans-serif;
-    color: white;
-    background-image: url("images/background.png");
-}
+    background-color: black;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: rgb(255, 255, 255);
+    /* background: linear-gradient(45deg, 
+        rgba(255,255,255, 1) 0%, 
+        rgb(248, 250, 227) 20%, 
+        rgb(246, 248, 201) 100%); */
+
+    background: linear-gradient(45deg, 
+        rgb(0, 0, 0) 0%, 
+        rgb(0, 20, 25) 20%, 
+        rgb(4, 22, 50) 100%);
+    }
 
 .title-text{
     text-align: center;
@@ -13,28 +21,54 @@ body{
 }
 
 #introduction-text{
-    padding: 0.3cm;
-    background-color: rgba(0, 0, 0, 0.7);;
-    font-family: Arial, Helvetica, sans-serif;
+    padding: 30px;
     text-align: justify;
 }
 
+
 #application{
-    background-color: rgba(0, 0, 0, 0.7);
-    padding-left: 0.3cm;
-    padding-right: 0.3cm;
-    padding-bottom: 0.3cm;
+    padding: 30px;
+    position: relative;
+    display: block;
 }
 
-#quiz-labels{
-    background-color: whitesmoke;
-    border: 1px solid darkgrey;
-    padding-left: 0.3cm;
-    padding-right: 0.3cm;
-    font-family:'Courier New', Courier, monospace;
-    color: black;
+#wizard-container{
+    width: 30%;
+    height: 300px;
+}
+
+#wizard{
+    float: left;
+    width: auto;
+    height: inherit;
+}
+
+#quiz-board-text{
+    display: block;
+    height: 300px;
+    background-color: rgba(248, 247, 238, 0.4);
+    color: beige;
+    border-radius: 15px;
+}
+
+#quiz-labels, #message{
     position: relative;
     top: 50%;
+    display: block;
+    transform: translate(0,-50px);
+    /* background-color: #7d1a1a;
+    color: gold; */
+    font-family:'Courier New', Courier, monospace;
+
+}
+
+#quiz-labels {
+    color: whitesmoke;
+}
+
+#message{
+    text-align: center;
+    /* background-color: rgb(46, 174, 121); */
 }
 
 #answer-infinitive{
@@ -49,35 +83,12 @@ body{
     font-weight: bold;
 }
 
-#message-board{
-    position:relative;
-    background-color: whitesmoke;
-    color: black;
-    font-weight: bold;
-    border: 1px solid darkgrey;
-    padding: 1px;
-    height: 120px;
-    /* width: 300px; */
-    /* transform: translate(0, -50%); */
-    font-family:'Courier New', Courier, monospace;
-    
-}
-
-#message{
-    position:absolute;
-    width: fit-content;
-    top: 50%;
-    left: 50%;
-    text-align: center;
-    transform: translate(-50%, -50%);
-    color: black;
-}
 
 #final-buttons{
-    position: relative;
-    top: 5px;
+    display: block;
 }
 
+/* 
 .btn-yellow {
     background-color: rgb(102, 101, 19); 
     color: black;
@@ -87,4 +98,4 @@ body{
 .btn-yellow:hover {
     background-color: rgb(251, 251, 34); 
     color: darkgrey;
-}
+} */
