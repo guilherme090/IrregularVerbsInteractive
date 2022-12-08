@@ -60,10 +60,6 @@ let pastParticipleAnswer = $('#answer-past-participle');
 let allLabels = $('.answers');
 console.log(allLabels)
 
-// Quiz log board
-
-let quizLogBoard = $('#message-log');
-
 // Update functions
 
 function updateStudentScore(){
@@ -364,18 +360,51 @@ function correctWord(){
     aluno.words_total ++;
     console.log(aluno);
     updateStudentScore();
-    logMessage = logMessage.concat('| ' + infinitiveAnswer.text() + ' | ' + 
-        pastSimpleAnswer.val().toLowerCase() + ' | ' + pastParticipleAnswer.val().toLowerCase() + ' |' + ' >>> (correct)' + '');
-    quizLogBoard.text(logMessage);
+    let row = $("<tr>");
+    let columnInfinitive = $("<td>").text(infinitiveAnswer.text());
+    let columnPastSimple = $("<td>").text(pastSimpleAnswer.val().toLowerCase());
+    let columnPastParticiple = $("<td>").text(pastParticipleAnswer.val().toLowerCase());
+    let columnStatus = $("<td>").text("correct");
+    columnStatus.addClass("correctAnswer");
+
+    row.append(columnInfinitive);
+    row.append(columnPastSimple);
+    row.append(columnPastParticiple);
+    row.append(columnStatus);
+
+    $("#quiz-log-table").find("tbody").append(row);
+
 };
 
-function incorrectWord(){
+function incorrectWord(pastSimpleCorrect, pastParticipleCorrect){
     aluno.words_total ++;
     console.log(aluno);
     updateStudentScore();
-    logMessage = logMessage.concat('*| ' + infinitiveAnswer.text() + ' | ' + 
-    pastSimpleAnswer.val().toLowerCase() + ' | ' + pastParticipleAnswer.val().toLowerCase() + ' |' + ' >>> (incorrect)' + '');
-    quizLogBoard.text(logMessage);
+
+    let row = $("<tr>");
+    
+    let columnInfinitive = $("<td>").text(infinitiveAnswer.text());
+    
+    let columnPastSimple = $("<td>").text(pastSimpleAnswer.val().toLowerCase());
+    if(!pastSimpleCorrect){
+        columnPastSimple.addClass("incorrectAnswer");
+    }
+
+    let columnPastParticiple = $("<td>").text(pastParticipleAnswer.val().toLowerCase());
+    if(!pastParticipleCorrect){
+        columnPastParticiple.addClass("incorrectAnswer");
+    }
+    
+    let columnStatus = $("<td>").text("incorrect");
+    columnStatus.addClass("incorrectAnswer");
+
+    row.append(columnInfinitive);
+    row.append(columnPastSimple);
+    row.append(columnPastParticiple);
+    row.append(columnStatus);
+
+    $("#quiz-log-table").find("tbody").append(row);
+
 };
 
 let showAnsBtn = $('#btn-show-answer');
@@ -383,19 +412,22 @@ showAnsBtn.click(showAnswer);
 
 
 function showAnswer(){
+    // separate answer to see exactly which are incorrect, if any.
+    // this will be used to color Quiz Log.
+
+    let pastSimpleCorrect = isCorrectPastSimple(pastSimpleAnswer.val().toLowerCase(), listOfVerbs[shuffledIndex].pastSimple);
+    
+    let pastParticipleCorrect = isCorrectPastParticiple(pastParticipleAnswer.val().toLowerCase(), listOfVerbs[shuffledIndex].pastParticiple);
+
     // Signal to the state machine that answer was shown
-    if(isCorrectPastSimple(pastSimpleAnswer.val().toLowerCase(), listOfVerbs[shuffledIndex].pastSimple) &&
-    isCorrectPastParticiple(pastParticipleAnswer.val().toLowerCase(), listOfVerbs[shuffledIndex].pastParticiple) ){
+    if( pastSimpleCorrect && pastParticipleCorrect ) {
     correctWord();
     stateMachine(states.QUIZ_STARTED_ANSWER_CORRECT);
     }else{
-    incorrectWord();
+    incorrectWord(pastSimpleCorrect, pastParticipleCorrect);
     stateMachine(states.QUIZ_STARTED_ANSWER_INCORRECT);
     }
 }
-
-let nextWordBtn = $('#btn-next-word');
-nextWordBtn.click(nextWord);
 
 function nextWord(){
     // Check if all words were already taken. No new words to show.
@@ -408,7 +440,7 @@ function nextWord(){
     }
 }
 
-// showAnsBtn and nextWordBtn are equivalent to pressing enter in the input boxes
+// showAnsBtn is equivalent to pressing enter in the input boxes
 // nextWord() will be useful in future version of the game in which input boxes will be visible
 // together with the right or wrong message
 
@@ -417,16 +449,15 @@ pastParticipleAnswer.keydown(search);
 
 function search(pressedKey){
     if(pressedKey.key === 'Enter'){
-        if(showAnsBtn.prop("disabled") == false){
+        if(
+            showAnsBtn.prop("disabled") == false &&
+            pastSimpleAnswer.val().length > 0 &&
+            pastParticipleAnswer.val().length > 0
+        ){
             showAnswer();
-        }
-        else if(nextWordBtn.prop("disabled") == false){
-            nextWord();
         }
     }
 }
-
-
 
 let endQuizBtn = $('#btn-end');
 endQuizBtn.click(function(){
@@ -445,7 +476,7 @@ The program erases all data and becomes prepared to a new quiz.
 const resetBtn = $('#btn-reset');
 resetBtn.click(function(){
     // Erase quiz log
-    quizLogBoard.text('QUIZ LOG:');
+    $("#quiz-log-table").find("tbody").empty();
         
     stateMachine(states.STUDENT_REGISTERED);
     wordNumber.text(0);
@@ -496,14 +527,12 @@ function stateMachine(currentState){
     switch(currentState){
         case states.STUDENT_REGISTERED:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
-            messageBoard.text('Choose how many words from the list you already know in the "learned words" box and start the quiz anytime.');
+            showMessage('Choose how many words from the list you already know in the "learned words" box and start the quiz anytime.');
             studentLearnedWords.prop("disabled", false);
             startBtn.prop("disabled", false);
             startBtn.css("background-color","#DDDD00");
             showAnsBtn.prop("disabled", true);
             showAnsBtn.css("background-color","#555500");
-            nextWordBtn.prop("disabled", true);
-            nextWordBtn.css("background-color","#555500");
             resetBtn.prop("disabled", true);
             resetBtn.css("background-color","#555500");
             endQuizBtn.prop("disabled", true);
@@ -515,7 +544,7 @@ function stateMachine(currentState){
             break;
         case states.QUIZ_STARTED_NO_ANSWER:
             setLabelVisibility('visible'); // Show verbs. Student needs to write the answers
-            messageBoard.text('');
+            showMessage('');
             shuffledIndex = shuffleVerb(listOfVerbs, wordNumber);
             console.log(shuffledIndex);
             showInfinitive(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
@@ -524,8 +553,6 @@ function stateMachine(currentState){
             startBtn.css("background-color", "#555500");
             showAnsBtn.prop("disabled", false);
             showAnsBtn.css("background-color", "#DDDD00");
-            nextWordBtn.prop("disabled", true);
-            nextWordBtn.css("background-color", "#555500");
             resetBtn.prop("disabled", false);
             resetBtn.css("background-color", "#DDDD00");
             endQuizBtn.prop("disabled", false);
@@ -544,38 +571,37 @@ function stateMachine(currentState){
             }else{
                 pastParticipleAnswer.prop("disabled", false);
             }
+            pastSimpleAnswer.focus();
             break;
         case states.QUIZ_STARTED_ANSWER_CORRECT:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
-            messageBoard.text('Congratulations! Your answer is correct. Click on NEXT WORD to proceed.');
+            showMessage('Congratulations! Your answer is correct. Next word in 3 seconds...');
             showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
             studentLearnedWords.prop("disabled", true);
             startBtn.prop("disabled", true);
             startBtn.css("background-color", "#555500");
             showAnsBtn.prop("disabled", true);
             showAnsBtn.css("background-color", "#555500");
-            nextWordBtn.prop("disabled", false);
-            nextWordBtn.css("background-color", "#DDDD00");
             resetBtn.prop("disabled", false);
             resetBtn.css("background-color", "#DDDD00");
             endQuizBtn.prop("disabled", false);
             endQuizBtn.css("background-color", "#DDDD00");
+            waitForNextWord(3);
             break;
         case states.QUIZ_STARTED_ANSWER_INCORRECT:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
-            messageBoard.text('Unfortunately, your answer is incorrect. Click on NEXT WORD to proceed.');
+            showMessage('Unfortunately, your answer is incorrect. Click on NEXT WORD to proceed.');
             showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
             studentLearnedWords.prop("disabled", true);
             startBtn.prop("disabled", true);
             startBtn.css("background-color", "#555500");
             showAnsBtn.prop("disabled", true);
             showAnsBtn.css("background-color", "#555500");
-            nextWordBtn.prop("disabled", false);
-            nextWordBtn.css("background-color", "#DDDD00");
             resetBtn.prop("disabled", false);
             resetBtn.css("background-color", "#DDDD00");
             endQuizBtn.prop("disabled", false);
             endQuizBtn.css("background-color", "#DDDD00");
+            waitForNextWord(3);
             break;
         case states.NO_MORE_WORDS:
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
@@ -587,19 +613,42 @@ function stateMachine(currentState){
             }else{
                 messageToBeShown = messageToBeShown.concat('Your memorization skills are impressive! You should consider adding more verbs to your list.');
             }
-            messageToBeShown = messageToBeShown.concat('There are no more words to show. Press RESET QUIZ to create a new quiz.');           
-            messageBoard.text(messageToBeShown); 
+            messageToBeShown = messageToBeShown.concat('\nThere are no more words to show. Check the Quiz Log below to see the answers you gave. \nPress RESET QUIZ to create a new quiz.');           
+            showMessage(messageToBeShown); 
             studentLearnedWords.prop("disabled", true);
             startBtn.prop("disabled", true);
             startBtn.css("background-color", "#555500");
             showAnsBtn.prop("disabled", true);
             showAnsBtn.css("background-color", "#555500");
-            nextWordBtn.prop("disabled", true);
-            nextWordBtn.css("background-color", "#555500");
             resetBtn.prop("disabled", false);
             resetBtn.css("background-color", "#DDDD00");
             endQuizBtn.prop("disabled", true);
             endQuizBtn.css("background-color", "#555500");
             break;
-    }
+    }  
+}
+
+function showMessage(message){
+    messageBoard.empty();
+    message = message.split('\n');
+    message.forEach(function(sentence){
+        let messageText = $("<div>").text(sentence);
+        messageText.addClass("messageBoardText");
+        messageBoard.append(messageText);
+    });
+}
+
+function waitForNextWord(time){
+    let seconds = $("<div>").text(time + "...");
+    seconds.addClass("timer");
+    messageBoard.append(seconds);
+    let timer = setInterval(function(){
+        time--;
+        seconds.text(time + "...");
+        if(time<1){
+            clearInterval(timer);
+            seconds.remove();
+            nextWord();
+        }
+    }, 1000);
 }

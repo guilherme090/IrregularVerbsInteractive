@@ -99,3 +99,36 @@ body{
     background-color: rgb(251, 251, 34); 
     color: darkgrey;
 } */
+
+table, th, td {
+    border: 1px solid white;
+    border-collapse: collapse;
+    margin: 5px;
+    padding: 5px;
+    vertical-align: middle;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+th {
+    color: #777700;
+    font-weight: bold;
+}
+
+.timer {
+    color: gold;
+    margin: 5px;
+}
+
+.messageBoardText {
+    margin: 3px;
+}
+
+.correctAnswer {
+    color:lightgreen;
+}
+
+.incorrectAnswer {
+    color:red;
+}
