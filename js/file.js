@@ -449,7 +449,11 @@ pastParticipleAnswer.keydown(search);
 
 function search(pressedKey){
     if(pressedKey.key === 'Enter'){
-        if(showAnsBtn.prop("disabled") == false){
+        if(
+            showAnsBtn.prop("disabled") == false &&
+            pastSimpleAnswer.val().length > 0 &&
+            pastParticipleAnswer.val().length > 0
+        ){
             showAnswer();
         }
     }
