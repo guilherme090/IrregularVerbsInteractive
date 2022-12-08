@@ -60,10 +60,6 @@ let pastParticipleAnswer = $('#answer-past-participle');
 let allLabels = $('.answers');
 console.log(allLabels)
 
-// Quiz log board
-
-let quizLogBoard = $('#message-log');
-
 // Update functions
 
 function updateStudentScore(){
@@ -364,18 +360,39 @@ function correctWord(){
     aluno.words_total ++;
     console.log(aluno);
     updateStudentScore();
-    logMessage = logMessage.concat('| ' + infinitiveAnswer.text() + ' | ' + 
-        pastSimpleAnswer.val().toLowerCase() + ' | ' + pastParticipleAnswer.val().toLowerCase() + ' |' + ' >>> (correct)' + '');
-    quizLogBoard.text(logMessage);
+    let row = $("<tr>");
+    let columnInfinitive = $("<td>").text(infinitiveAnswer.text());
+    let columnPastSimple = $("<td>").text(pastSimpleAnswer.val().toLowerCase());
+    let columnPastParticiple = $("<td>").text(pastParticipleAnswer.val().toLowerCase());
+    let columnStatus = $("<td>").text("correct");
+
+    row.append(columnInfinitive);
+    row.append(columnPastSimple);
+    row.append(columnPastParticiple);
+    row.append(columnStatus);
+
+    $("#quiz-log-table").find("tbody").append(row);
+
 };
 
 function incorrectWord(){
     aluno.words_total ++;
     console.log(aluno);
     updateStudentScore();
-    logMessage = logMessage.concat('*| ' + infinitiveAnswer.text() + ' | ' + 
-    pastSimpleAnswer.val().toLowerCase() + ' | ' + pastParticipleAnswer.val().toLowerCase() + ' |' + ' >>> (incorrect)' + '');
-    quizLogBoard.text(logMessage);
+
+    let row = $("<tr>");
+    let columnInfinitive = $("<td>").text(infinitiveAnswer.text());
+    let columnPastSimple = $("<td>").text(pastSimpleAnswer.val().toLowerCase());
+    let columnPastParticiple = $("<td>").text(pastParticipleAnswer.val().toLowerCase());
+    let columnStatus = $("<td>").text("incorrect");
+
+    row.append(columnInfinitive);
+    row.append(columnPastSimple);
+    row.append(columnPastParticiple);
+    row.append(columnStatus);
+
+    $("#quiz-log-table").find("tbody").append(row);
+
 };
 
 let showAnsBtn = $('#btn-show-answer');
@@ -445,7 +462,7 @@ The program erases all data and becomes prepared to a new quiz.
 const resetBtn = $('#btn-reset');
 resetBtn.click(function(){
     // Erase quiz log
-    quizLogBoard.text('QUIZ LOG:');
+    $("#quiz-log-table").find("tbody").empty();
         
     stateMachine(states.STUDENT_REGISTERED);
     wordNumber.text(0);
