@@ -475,9 +475,6 @@ The program erases all data and becomes prepared to a new quiz.
 
 const resetBtn = $('#btn-reset');
 resetBtn.click(function(){
-    // Erase quiz log
-    $("#quiz-log-table").find("tbody").empty();
-        
     stateMachine(states.STUDENT_REGISTERED);
     wordNumber.text(0);
     infinitiveAnswer.text("");
@@ -527,6 +524,7 @@ function stateMachine(currentState){
     switch(currentState){
         case states.STUDENT_REGISTERED:
             $("#quiz-log-table").slideUp(500);
+            $("#quiz-log-table").find("tbody").empty();
 
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
             showMessage('Choose how many words from the list you already know in the "learned words" box and start the quiz anytime.');
@@ -607,6 +605,7 @@ function stateMachine(currentState){
             break;
         case states.NO_MORE_WORDS:
             $("#quiz-log-table").slideDown(500);
+            scrollQuizLog(500);
                 
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
             let messageToBeShown = 'Your score: ' + aluno.words_right + ' words out of ' + aluno.words_total + '. ';
@@ -659,4 +658,11 @@ function waitForNextWord(time){
             nextWord();
         }
     }, 1000);
+}
+
+function scrollQuizLog(duration) {
+    let position = $("#quiz-log-table").offset().top;
+    $("html").animate({
+        scrollTop: position + "px"
+    }, duration);
 }
