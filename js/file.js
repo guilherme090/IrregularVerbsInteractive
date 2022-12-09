@@ -643,6 +643,10 @@ function showMessage(message){
 }
 
 function waitForNextWord(time){
+    resetBtn.prop("disabled", true);
+    resetBtn.css("background-color", "#555500");
+    endQuizBtn.prop("disabled", true);
+    endQuizBtn.css("background-color", "#555500");
     let seconds = $("<div>").text(time + "...");
     seconds.addClass("timer");
     messageBoard.append(seconds);
