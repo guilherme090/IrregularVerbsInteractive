@@ -111,6 +111,10 @@ table, th, td {
     text-align: center;
 }
 
+#quiz-log-table {
+    display: none;
+}
+
 th {
     color: #777700;
     font-weight: bold;

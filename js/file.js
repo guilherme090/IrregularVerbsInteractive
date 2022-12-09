@@ -526,6 +526,8 @@ function stateMachine(currentState){
     }
     switch(currentState){
         case states.STUDENT_REGISTERED:
+            $("#quiz-log-table").slideUp(500);
+
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
             showMessage('Choose how many words from the list you already know in the "learned words" box and start the quiz anytime.');
             studentLearnedWords.prop("disabled", false);
@@ -604,6 +606,8 @@ function stateMachine(currentState){
             waitForNextWord(3);
             break;
         case states.NO_MORE_WORDS:
+            $("#quiz-log-table").slideDown(500);
+                
             setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
             let messageToBeShown = 'Your score: ' + aluno.words_right + ' words out of ' + aluno.words_total + '. ';
             if(aluno.words_right / aluno.words_total < 0.6){
