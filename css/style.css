@@ -52,14 +52,11 @@ body{
 }
 
 #quiz-labels, #message{
+    height: 140px;
+    overflow-y: auto;
     position: relative;
-    top: 50%;
     display: block;
-    transform: translate(0,-50px);
-    /* background-color: #7d1a1a;
-    color: gold; */
     font-family:'Courier New', Courier, monospace;
-
 }
 
 #quiz-labels {
@@ -68,7 +65,9 @@ body{
 
 #message{
     text-align: center;
-    /* background-color: rgb(46, 174, 121); */
+    padding-top: 10px;;
+    padding-right: 10px;;
+    padding-bottom: 10px;;
 }
 
 #answer-infinitive{
