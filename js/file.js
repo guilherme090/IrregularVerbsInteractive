@@ -182,7 +182,7 @@ startBtn.click(function(){
             studentLearnedWords.val(1);
         }else if(studentLearnedWords.val() > listOfVerbs.length){
             // invalid number of learned words
-            studentLearnedWords.val() = listOfVerbs.length;
+            studentLearnedWords.val(listOfVerbs.length);
         }
 
         stateMachine(states.QUIZ_STARTED_NO_ANSWER);
