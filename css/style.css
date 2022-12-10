@@ -61,13 +61,14 @@ body{
 
 #quiz-labels {
     color: whitesmoke;
+    padding-bottom: 10px;
 }
 
 #message{
+    height: 110px;
     text-align: center;
-    padding-top: 10px;;
-    padding-right: 10px;;
-    padding-bottom: 10px;;
+    padding-top: 10px;
+    padding-right: 10px;
 }
 
 #answer-infinitive{
