@@ -71,108 +71,6 @@ function updateStudentScore(){
     } 
 }
 
-let rawListOfVerbs = 
-"say#said#said*" +
-"make#made#made*" +
-"go#went#gone*" +
-"take#took#taken*" +
-"come#came#come*" +
-"see#saw#seen*" +
-"know#knew#known*" +
-"get#got#got/gotten*" +
-"give#gave#given*" +
-"find#found#found*" +
-"think#thought#thought*" +
-"tell#told#told*" +
-"become#became#become*" +
-"show#showed#shown*" +
-"leave#left#left*" +
-"feel#felt#felt*" +
-"put#put#put*" +
-"bring#brought#brought*" +
-"begin#began#begun*" +
-"keep#kept#kept*" +
-"hold#held#held*" +
-"write#wrote#written*" +
-"stand#stood#stood*" +
-"hear#heard#heard*" +
-"let#let#let*" +
-"mean#meant#meant*" +
-"set#set#set*" +
-"meet#met#met*" +
-"run#ran#run*" +
-"pay#paid#paid*" +
-"sit#sat#sat*" +
-"speak#spoke#spoken*" +
-"lie#lay#lain*" +
-"lead#led#led*" +
-"read#read#read*" +
-"grow#grew#grown*" +
-"lose#lost#lost*" +
-"fall#fell#fallen*" +
-"send#sent#sent*" +
-"build#built#built*" +
-"understand#understood#understood*" +
-"draw#drew#drawn*" +
-"break#broke#broken*" +
-"spend#spent#spent*" +
-"cut#cut#cut*" +
-"rise#rose#risen*" +
-"drive#drove#driven*" +
-"buy#bought#bought*" +
-"wear#wore#worn*" +
-"choose#chose#chosen*" +
-"seek#sought#sought*" +
-"throw#threw#thrown*" +
-"catch#caught#caught*" +
-"deal#dealt#dealt*" +
-"win#won#won*" +
-"forget#forgot#forgotten*" +
-"lay#laid#laid*" +
-"sell#sold#sold*" +
-"fight#fought#fought*" +
-"bear#bore#born*" +
-"teach#taught#taught*" +
-"eat#ate#eaten*" +
-"sing#sang#sung*" +
-"strike#struck#struck*" +
-"hang#hung#hung*" +
-"shake#shook#shaken*" +
-"ride#rode#ridden*" +
-"feed#fed#fed*" +
-"shoot#shot#shot*" +
-"drink#drank#drunk*" +
-"hit#hit#hit*" +
-"arise#arose#arisen*" +
-"fly#flew#flown*" +
-"spread#spread#spread*" +
-"sleep#slept#slept*" +
-"cost#cost#cost*" +
-"beat#beat#beaten*" +
-"light#lit#lit*" +
-"bind#bound#bound*" +
-"cast#cast#cast*" +
-"hide#hid#hidden*" +
-"swing#swung#swung*" +
-"blow#blew#blown*" +
-"swim#swam#swum*" +
-"bend#bent#bent*" +
-"wake#woke#woken*" +
-"stick#stuck#stuck*" +
-"sweep#swept#swept*" +
-"undertake#undertook#undertaken*" +
-"shut#shut#shut*" +
-"steal#stole#stolen*" +
-"tear#tore#torn*" +
-"hurt#hurt#hurt*" +
-"ring#rang#rung*" +
-"lend#lent#lent*" +
-"sink#sank#sunk*" +
-"overcome#overcame#overcome*" +
-"freeze#froze#frozen*" +
-"shine#shone#shone*" +
-"withdraw#withdrew#withdrawn";
-
 /* 
 ----------------------------------------------------------------------------------
 The verbs
@@ -232,8 +130,6 @@ function resetStudentScore(){
     aluno.words_total = 0;
 }
 
-
-
 let shuffledIndex = 0; // Initialize shuffled number
 
 function shuffleVerb(currentListOfVerbs, currentWordCount){
@@ -268,27 +164,6 @@ function showPast(theInfinitive, thePastSimple, thePastParticiple, theListOfVerb
 
     messageBoard.text(theMessage);
 }
-
-/*
-----------------------------------------------------------------------------------
-List of verbs
-----------------------------------------------------------------------------------
-Instead of reading an external .txt file, the list of verbs was hard coded above, but it will be
-converted to a data structure inside the program in the same way as before.
-*/
-
-let verbsReadWithLineBreak = rawListOfVerbs.replace(/(\r\n|\n|\r)/gm,""); 
-
-let verbsRead = verbsReadWithLineBreak.split('*');
-
-console.log(verbsRead);
-
-const listOfVerbs = []; // stores all verbs that are in the txt file loaded as verb list.
-
-verbsRead.forEach(verbForm => {
-    let singleVerb = verbForm.split('#');
-    listOfVerbs.push(new verb(singleVerb[0], singleVerb[1], singleVerb[2], false));   
-});
 
 console.log(listOfVerbs);
 
@@ -414,6 +289,8 @@ showAnsBtn.click(showAnswer);
 function showAnswer(){
     // separate answer to see exactly which are incorrect, if any.
     // this will be used to color Quiz Log.
+
+    console.log(listOfVerbs);
 
     let pastSimpleCorrect = isCorrectPastSimple(pastSimpleAnswer.val().toLowerCase(), listOfVerbs[shuffledIndex].pastSimple);
     
