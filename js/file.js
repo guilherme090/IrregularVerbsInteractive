@@ -403,7 +403,7 @@ function stateMachine(currentState){
             $("#quiz-log-table").slideUp(500);
             $("#quiz-log-table").find("tbody").empty();
 
-            setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
+            setLabelVisibility('collapse'); // Hide verbs. Message Board is showing a message
             showMessage('Choose how many words from the list you already know in the "learned words" box and start the quiz anytime.');
             studentLearnedWords.prop("disabled", false);
             startBtn.prop("disabled", false);
@@ -451,7 +451,7 @@ function stateMachine(currentState){
             pastSimpleAnswer.focus();
             break;
         case states.QUIZ_STARTED_ANSWER_CORRECT:
-            setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
+            setLabelVisibility('collapse'); // Hide verbs. Message Board is showing a message
             showMessage('Congratulations! Your answer is correct. Next word in 3 seconds...');
             showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
             studentLearnedWords.prop("disabled", true);
@@ -466,7 +466,7 @@ function stateMachine(currentState){
             waitForNextWord(3);
             break;
         case states.QUIZ_STARTED_ANSWER_INCORRECT:
-            setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
+            setLabelVisibility('collapse'); // Hide verbs. Message Board is showing a message
             showMessage('Unfortunately, your answer is incorrect. Click on NEXT WORD to proceed.');
             showPast(infinitiveAnswer, pastSimpleAnswer, pastParticipleAnswer, listOfVerbs, shuffledIndex);
             studentLearnedWords.prop("disabled", true);
@@ -484,7 +484,7 @@ function stateMachine(currentState){
             $("#quiz-log-table").slideDown(500);
             scrollQuizLog(500);
                 
-            setLabelVisibility('hidden'); // Hide verbs. Message Board is showing a message
+            setLabelVisibility('collapse'); // Hide verbs. Message Board is showing a message
             let messageToBeShown = 'Your score: ' + aluno.words_right + ' words out of ' + aluno.words_total + '. ';
             if(aluno.words_right / aluno.words_total < 0.6){
                 messageToBeShown = messageToBeShown.concat('Keep working on your list. You will soon memorize a lot of words!');
