@@ -493,7 +493,7 @@ function stateMachine(currentState){
             }else{
                 messageToBeShown = messageToBeShown.concat('Your memorization skills are impressive! You should consider adding more verbs to your list.');
             }
-            messageToBeShown = messageToBeShown.concat('\nThere are no more words to show. Check the Quiz Log below to see the answers you gave. \nPress RESET QUIZ to create a new quiz.');           
+            messageToBeShown = messageToBeShown.concat('\nThe End. \nPress RESET QUIZ to create a new quiz.');           
             showMessage(messageToBeShown); 
             studentLearnedWords.prop("disabled", true);
             startBtn.prop("disabled", true);
