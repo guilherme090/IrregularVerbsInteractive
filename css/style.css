@@ -2,16 +2,12 @@ body{
     background-color: black;
     font-family: Georgia, 'Times New Roman', Times, serif;
     color: rgb(255, 255, 255);
-    /* background: linear-gradient(45deg, 
-        rgba(255,255,255, 1) 0%, 
-        rgb(248, 250, 227) 20%, 
-        rgb(246, 248, 201) 100%); */
 
     background: linear-gradient(45deg, 
         rgb(0, 0, 0) 0%, 
         rgb(0, 20, 25) 20%, 
         rgb(4, 22, 50) 100%);
-    }
+}
 
 .title-text{
     text-align: center;
@@ -46,8 +42,8 @@ body{
 #quiz-board-text{
     display: block;
     height: 300px;
-    background-color: rgba(248, 247, 238, 0.4);
-    color: beige;
+    background-color: white;
+    color: darkblue;
     border-radius: 15px;
 }
 
@@ -60,7 +56,7 @@ body{
 }
 
 #quiz-labels {
-    color: whitesmoke;
+    color: darkslategray;
     padding-bottom: 10px;
 }
 
@@ -148,3 +144,32 @@ th {
     background-color: white;
 }
 
+.highlight {
+    animation-name: glow-quiz-text; 
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes glow-quiz-text {
+    0% {color: #000066;}
+    40% {color: #000066;}
+    70% {color: #aa9130;}
+    95% {color: #EECC44;}
+    100% {color: #EEDD44;}
+}
+
+.wrongAnswerHighlight {
+    animation-name: glow-red; 
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes glow-red {
+    0% {color: #000000;}
+    20% {color: #550000;}
+    50% {color: #CC0000;}
+    80% {color: #DD0000;}
+    100% {color: #FF0000;}
+}

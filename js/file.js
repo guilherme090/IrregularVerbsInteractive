@@ -235,11 +235,13 @@ function incorrectWord(pastSimpleCorrect, pastParticipleCorrect){
     let columnPastSimple = $("<td>").text($('#answer-past-simple').val().toLowerCase());
     if(!pastSimpleCorrect){
         columnPastSimple.addClass("incorrectAnswer");
+        $("#answer-past-simple").addClass("wrongAnswerHighlight");
     }
 
     let columnPastParticiple = $("<td>").text($('#answer-past-participle').val().toLowerCase());
     if(!pastParticipleCorrect){
         columnPastParticiple.addClass("incorrectAnswer");
+        $("#answer-past-participle").addClass("wrongAnswerHighlight");
     }
     
     let columnStatus = $("<td>").text("incorrect");
@@ -369,6 +371,7 @@ function stateMachine(currentState){
     }
     switch(currentState){
         case states.STUDENT_REGISTERED:
+            $("#quiz-board-text").addClass("highlight");
             $("#quiz-log-table").slideUp(500);
             $("#quiz-log-table").find("tbody").empty();
 
@@ -389,6 +392,9 @@ function stateMachine(currentState){
             $('#include-past-participle').prop("disabled", false);
             break;
         case states.QUIZ_STARTED_NO_ANSWER:
+            $("#answer-past-simple").removeClass("wrongAnswerHighlight");
+            $("#answer-past-participle").removeClass("wrongAnswerHighlight");
+            $("#quiz-board-text").removeClass("highlight");
             setLabelVisibility('visible'); // Show verbs. Student needs to write the answers
             showMessage('');
             shuffledIndex = shuffleVerb(listOfVerbs, $('#word-no'));
@@ -420,9 +426,11 @@ function stateMachine(currentState){
             $('#answer-past-simple').focus();
             break;
         case states.QUIZ_STARTED_ANSWER_CORRECT:
-            setLabelVisibility('collapse'); // Hide verbs. Message Board is showing a message
-            showMessage('Congratulations! Your answer is correct. Next word in 3 seconds...');
+            // setLabelVisibility('collapse'); // Hide verbs. Message Board is showing a message
+            showMessage('Congratulations! Your answer is correct.');
             showPast($('#answer-infinitive'), $('#answer-past-simple'), $('#answer-past-participle'), listOfVerbs, shuffledIndex);
+            $('#answer-past-simple').prop("disabled", true);
+            $('#answer-past-participle').prop("disabled", true);
             $('#learned-words').prop("disabled", true);
             $('#btn-start').prop("disabled", true);
             $('#btn-start').css("background-color", "#555500");
@@ -436,9 +444,11 @@ function stateMachine(currentState){
             waitForNextWord(3);
             break;
         case states.QUIZ_STARTED_ANSWER_INCORRECT:
-            setLabelVisibility('collapse'); // Hide verbs. Message Board is showing a message
-            showMessage('Unfortunately, your answer is incorrect. Click on NEXT WORD to proceed.');
+            //setLabelVisibility('collapse'); // Hide verbs. Message Board is showing a message
+            showMessage('Unfortunately, your answer is incorrect.');
             showPast($('#answer-infinitive'), $('#answer-past-simple'), $('#answer-past-participle'), listOfVerbs, shuffledIndex);
+            $('#answer-past-simple').prop("disabled", true);
+            $('#answer-past-participle').prop("disabled", true);
             $('#learned-words').prop("disabled", true);
             $('#btn-start').prop("disabled", true);
             $('#btn-start').css("background-color", "#555500");
