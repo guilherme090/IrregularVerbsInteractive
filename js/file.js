@@ -327,6 +327,7 @@ $('#btn-reset').click(function(){
     $('#answer-past-participle').val("");
     resetStudentScore();
     updateStudentScore();
+    adjustScoreBar("0.00");
 });
 
 /* 
@@ -431,6 +432,7 @@ function stateMachine(currentState){
             $('#btn-reset').css("background-color", "#DDDD00");
             $('#btn-end').prop("disabled", false);
             $('#btn-end').css("background-color", "#DDDD00");
+            adjustScoreBar($("#correct-pct").text());
             waitForNextWord(3);
             break;
         case states.QUIZ_STARTED_ANSWER_INCORRECT:
@@ -446,6 +448,7 @@ function stateMachine(currentState){
             $('#btn-reset').css("background-color", "#DDDD00");
             $('#btn-end').prop("disabled", false);
             $('#btn-end').css("background-color", "#DDDD00");
+            adjustScoreBar($("#correct-pct").text());
             waitForNextWord(3);
             break;
         case states.NO_MORE_WORDS:
@@ -510,4 +513,8 @@ function scrollQuizLog(duration) {
     $("html").animate({
         scrollTop: position + "px"
     }, duration);
+}
+
+function adjustScoreBar(newScore) {
+    $(".score-percent").animate({width: newScore + "%"}, 3000);
 }
