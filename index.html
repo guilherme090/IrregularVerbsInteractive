@@ -49,16 +49,19 @@
                 </span>
                 <span id="quiz-board-text">
                     <span id="message">
-                        Message Board.
+                        
                     </span>
                     <span class="container" id="quiz-labels">
                         <label class="answers">Infinitive:</label> <label class="answers" id="answer-infinitive"></label><br>
-                        <label class="answers">Past Simple:</label> <input class="answers" type="text" id="answer-past-simple" maxlength="20"></input><br>
-                        <label class="answers">Past Participle:</label> <input class="answers" type="text" id="answer-past-participle"  maxlength="20"></input>
+                        <label class="answers">Past Simple:</label> <input class="answers" type="text" id="answer-past-simple" maxlength="20" autocomplete="off"></input><br>
+                        <label class="answers">Past Participle:</label> <input class="answers" type="text" id="answer-past-participle"  maxlength="20" autocomplete="off"></input>
                     </span>
                 </span>    
                 <label>Word number: </label><label id="word-no"> 0</label>
                 <label>Correct Answers:</label> <label id="correct-pct">0.00</label><label>%</label>
+                <div class="score">
+                    <div class="score-percent"></div>
+                </div>
             </span>
             
             <div class="container" id="final-buttons">
@@ -94,7 +97,8 @@
         </div>            
 
         <!-- Controlling index.html itself -->
-        <script src="js/jquery.js"></script> 
+        <script src="js/jquery.js"></script>
+        <script src="js/verbs-list.js"></script> 
         <script src="js/file.js"></script> 
         
     </body>
