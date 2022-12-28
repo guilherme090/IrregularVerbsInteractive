@@ -441,6 +441,8 @@ function stateMachine(currentState){
             $('#btn-end').prop("disabled", false);
             $('#btn-end').css("background-color", "#DDDD00");
             adjustScoreBar($("#correct-pct").text());
+            let audio_win = new Audio('./sounds/success.wav');
+            audio_win.play();
             waitForNextWord(3);
             break;
         case states.QUIZ_STARTED_ANSWER_INCORRECT:
@@ -459,6 +461,8 @@ function stateMachine(currentState){
             $('#btn-end').prop("disabled", false);
             $('#btn-end').css("background-color", "#DDDD00");
             adjustScoreBar($("#correct-pct").text());
+            let audio_lose = new Audio('./sounds/fail.wav');
+            audio_lose.play();
             waitForNextWord(3);
             break;
         case states.NO_MORE_WORDS:
