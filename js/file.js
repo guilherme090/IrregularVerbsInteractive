@@ -209,8 +209,8 @@ function correctWord(){
     updateStudentScore();
     let row = $("<tr>");
     let columnInfinitive = $("<td>").text($('#answer-infinitive').text());
-    let columnPastSimple = $("<td>").text($('#answer-past-simple').val().toLowerCase());
-    let columnPastParticiple = $("<td>").text($('#answer-past-participle').val().toLowerCase());
+    let columnPastSimple = $("<td>").text(tidyAnswer($('#answer-past-simple').val()));
+    let columnPastParticiple = $("<td>").text(tidyAnswer($('#answer-past-participle').val()));
     let columnStatus = $("<td>").text("correct");
     columnStatus.addClass("correctAnswer");
 
@@ -231,14 +231,12 @@ function incorrectWord(pastSimpleCorrect, pastParticipleCorrect){
     let row = $("<tr>");
     
     let columnInfinitive = $("<td>").text($('#answer-infinitive').text());
-    
-    let columnPastSimple = $("<td>").text($('#answer-past-simple').val().toLowerCase());
+    let columnPastSimple = $("<td>").text(tidyAnswer($('#answer-past-simple').val()));
     if(!pastSimpleCorrect){
         columnPastSimple.addClass("incorrectAnswer");
         $("#answer-past-simple").addClass("wrongAnswerHighlight");
     }
-
-    let columnPastParticiple = $("<td>").text($('#answer-past-participle').val().toLowerCase());
+    let columnPastParticiple = $("<td>").text(tidyAnswer($('#answer-past-participle').val()));
     if(!pastParticipleCorrect){
         columnPastParticiple.addClass("incorrectAnswer");
         $("#answer-past-participle").addClass("wrongAnswerHighlight");
@@ -264,9 +262,12 @@ function showAnswer(){
 
     console.log(listOfVerbs);
 
-    let pastSimpleCorrect = isCorrectPastSimple($('#answer-past-simple').val().toLowerCase(), listOfVerbs[shuffledIndex].pastSimple);
+    let userPastSimple = tidyAnswer($('#answer-past-simple').val());
+    let userPastParticiple = tidyAnswer($('#answer-past-participle').val());
+
+    let pastSimpleCorrect = isCorrectPastSimple(userPastSimple, listOfVerbs[shuffledIndex].pastSimple);
     
-    let pastParticipleCorrect = isCorrectPastParticiple($('#answer-past-participle').val().toLowerCase(), listOfVerbs[shuffledIndex].pastParticiple);
+    let pastParticipleCorrect = isCorrectPastParticiple(userPastParticiple, listOfVerbs[shuffledIndex].pastParticiple);
 
     // Signal to the state machine that answer was shown
     if( pastSimpleCorrect && pastParticipleCorrect ) {
@@ -276,6 +277,12 @@ function showAnswer(){
     incorrectWord(pastSimpleCorrect, pastParticipleCorrect);
     stateMachine(states.QUIZ_STARTED_ANSWER_INCORRECT);
     }
+}
+// remove white spaces
+function tidyAnswer(answer){
+    console.log("Before tidying: " + answer)
+    console.log("After tidying: " + answer.toLowerCase().split(/\s+/).filter((item)=>{return(item != " ")}).join(""))
+    return answer.toLowerCase().split(/\s+/).filter((item)=>{return(item != " ")}).join("");
 }
 
 function nextWord(){
