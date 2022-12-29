@@ -109,16 +109,13 @@ function shuffleVerb(currentListOfVerbs, currentWordCount){
     // Shuffled number is a number between 0 and the end of the verb array (excluding verbs already taken)
     // the number of verbs that were already taken is the current wordCount - 1.
     let takenVerbs = Number(currentWordCount.text()) - 1;
-    console.log('Word count = ' + takenVerbs);
     let shuffledNumber = Math.floor(Math.random() * (Number($('#learned-words').val()) - takenVerbs)); 
-    console.log('shuffled number = ' + shuffledNumber);
     // Scan the whole list of verbs to point to a non-taken verb in sorted position
     for(let i = 0; i < shuffledNumber || currentListOfVerbs[i].taken === true ; i++){
         if(currentListOfVerbs[i].taken === true){
             shuffledNumber++;
         }
     }
-    console.log('shuffled index = ' + shuffledNumber);
 
     // tell list of verbs that this particular verb was taken
     currentListOfVerbs[shuffledNumber].taken = true;
@@ -137,8 +134,6 @@ function showPast(theInfinitive, thePastSimple, thePastParticiple, theListOfVerb
 
     $('#message').text(theMessage);
 }
-
-console.log(listOfVerbs);
 
 $('#btn-start').click(function(){
     // Only start the quiz if there is a list of verbs loaded to the system.
@@ -205,7 +200,6 @@ function isCorrectPastParticiple(userPastParticiple, programPastParticiple){
 function correctWord(){
     aluno.words_right ++;
     aluno.words_total ++;
-    console.log(aluno);
     updateStudentScore();
     let row = $("<tr>");
     let columnInfinitive = $("<td>").text($('#answer-infinitive').text());
@@ -225,7 +219,6 @@ function correctWord(){
 
 function incorrectWord(pastSimpleCorrect, pastParticipleCorrect){
     aluno.words_total ++;
-    console.log(aluno);
     updateStudentScore();
 
     let row = $("<tr>");
@@ -259,9 +252,6 @@ $('#btn-show-answer').click(showAnswer);
 function showAnswer(){
     // separate answer to see exactly which are incorrect, if any.
     // this will be used to color Quiz Log.
-
-    console.log(listOfVerbs);
-
     let userPastSimple = tidyAnswer($('#answer-past-simple').val());
     let userPastParticiple = tidyAnswer($('#answer-past-participle').val());
 
@@ -280,8 +270,6 @@ function showAnswer(){
 }
 // remove white spaces
 function tidyAnswer(answer){
-    console.log("Before tidying: " + answer)
-    console.log("After tidying: " + answer.toLowerCase().split(/\s+/).filter((item)=>{return(item != " ")}).join(""))
     return answer.toLowerCase().split(/\s+/).filter((item)=>{return(item != " ")}).join("");
 }
 
@@ -405,7 +393,6 @@ function stateMachine(currentState){
             setLabelVisibility('visible'); // Show verbs. Student needs to write the answers
             showMessage('');
             shuffledIndex = shuffleVerb(listOfVerbs, $('#word-no'));
-            console.log(shuffledIndex);
             showInfinitive($('#answer-infinitive'), $('#answer-past-simple'), $('#answer-past-participle'), listOfVerbs, shuffledIndex);
             $('#learned-words').prop("disabled", true);
             $('#btn-start').prop("disabled", true);
