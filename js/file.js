@@ -109,16 +109,13 @@ function shuffleVerb(currentListOfVerbs, currentWordCount){
     // Shuffled number is a number between 0 and the end of the verb array (excluding verbs already taken)
     // the number of verbs that were already taken is the current wordCount - 1.
     let takenVerbs = Number(currentWordCount.text()) - 1;
-    console.log('Word count = ' + takenVerbs);
     let shuffledNumber = Math.floor(Math.random() * (Number($('#learned-words').val()) - takenVerbs)); 
-    console.log('shuffled number = ' + shuffledNumber);
     // Scan the whole list of verbs to point to a non-taken verb in sorted position
     for(let i = 0; i < shuffledNumber || currentListOfVerbs[i].taken === true ; i++){
         if(currentListOfVerbs[i].taken === true){
             shuffledNumber++;
         }
     }
-    console.log('shuffled index = ' + shuffledNumber);
 
     // tell list of verbs that this particular verb was taken
     currentListOfVerbs[shuffledNumber].taken = true;
@@ -137,8 +134,6 @@ function showPast(theInfinitive, thePastSimple, thePastParticiple, theListOfVerb
 
     $('#message').text(theMessage);
 }
-
-console.log(listOfVerbs);
 
 $('#btn-start').click(function(){
     // Only start the quiz if there is a list of verbs loaded to the system.
@@ -205,12 +200,11 @@ function isCorrectPastParticiple(userPastParticiple, programPastParticiple){
 function correctWord(){
     aluno.words_right ++;
     aluno.words_total ++;
-    console.log(aluno);
     updateStudentScore();
     let row = $("<tr>");
     let columnInfinitive = $("<td>").text($('#answer-infinitive').text());
-    let columnPastSimple = $("<td>").text($('#answer-past-simple').val().toLowerCase());
-    let columnPastParticiple = $("<td>").text($('#answer-past-participle').val().toLowerCase());
+    let columnPastSimple = $("<td>").text(tidyAnswer($('#answer-past-simple').val()));
+    let columnPastParticiple = $("<td>").text(tidyAnswer($('#answer-past-participle').val()));
     let columnStatus = $("<td>").text("correct");
     columnStatus.addClass("correctAnswer");
 
@@ -225,20 +219,17 @@ function correctWord(){
 
 function incorrectWord(pastSimpleCorrect, pastParticipleCorrect){
     aluno.words_total ++;
-    console.log(aluno);
     updateStudentScore();
 
     let row = $("<tr>");
     
     let columnInfinitive = $("<td>").text($('#answer-infinitive').text());
-    
-    let columnPastSimple = $("<td>").text($('#answer-past-simple').val().toLowerCase());
+    let columnPastSimple = $("<td>").text(tidyAnswer($('#answer-past-simple').val()));
     if(!pastSimpleCorrect){
         columnPastSimple.addClass("incorrectAnswer");
         $("#answer-past-simple").addClass("wrongAnswerHighlight");
     }
-
-    let columnPastParticiple = $("<td>").text($('#answer-past-participle').val().toLowerCase());
+    let columnPastParticiple = $("<td>").text(tidyAnswer($('#answer-past-participle').val()));
     if(!pastParticipleCorrect){
         columnPastParticiple.addClass("incorrectAnswer");
         $("#answer-past-participle").addClass("wrongAnswerHighlight");
@@ -261,12 +252,12 @@ $('#btn-show-answer').click(showAnswer);
 function showAnswer(){
     // separate answer to see exactly which are incorrect, if any.
     // this will be used to color Quiz Log.
+    let userPastSimple = tidyAnswer($('#answer-past-simple').val());
+    let userPastParticiple = tidyAnswer($('#answer-past-participle').val());
 
-    console.log(listOfVerbs);
-
-    let pastSimpleCorrect = isCorrectPastSimple($('#answer-past-simple').val().toLowerCase(), listOfVerbs[shuffledIndex].pastSimple);
+    let pastSimpleCorrect = isCorrectPastSimple(userPastSimple, listOfVerbs[shuffledIndex].pastSimple);
     
-    let pastParticipleCorrect = isCorrectPastParticiple($('#answer-past-participle').val().toLowerCase(), listOfVerbs[shuffledIndex].pastParticiple);
+    let pastParticipleCorrect = isCorrectPastParticiple(userPastParticiple, listOfVerbs[shuffledIndex].pastParticiple);
 
     // Signal to the state machine that answer was shown
     if( pastSimpleCorrect && pastParticipleCorrect ) {
@@ -276,6 +267,10 @@ function showAnswer(){
     incorrectWord(pastSimpleCorrect, pastParticipleCorrect);
     stateMachine(states.QUIZ_STARTED_ANSWER_INCORRECT);
     }
+}
+// remove white spaces
+function tidyAnswer(answer){
+    return answer.toLowerCase().split(/\s+/).filter((item)=>{return(item != " ")}).join("");
 }
 
 function nextWord(){
@@ -398,7 +393,6 @@ function stateMachine(currentState){
             setLabelVisibility('visible'); // Show verbs. Student needs to write the answers
             showMessage('');
             shuffledIndex = shuffleVerb(listOfVerbs, $('#word-no'));
-            console.log(shuffledIndex);
             showInfinitive($('#answer-infinitive'), $('#answer-past-simple'), $('#answer-past-participle'), listOfVerbs, shuffledIndex);
             $('#learned-words').prop("disabled", true);
             $('#btn-start').prop("disabled", true);
@@ -441,6 +435,8 @@ function stateMachine(currentState){
             $('#btn-end').prop("disabled", false);
             $('#btn-end').css("background-color", "#DDDD00");
             adjustScoreBar($("#correct-pct").text());
+            let audio_win = new Audio('./sounds/success.wav');
+            audio_win.play();
             waitForNextWord(3);
             break;
         case states.QUIZ_STARTED_ANSWER_INCORRECT:
@@ -459,6 +455,8 @@ function stateMachine(currentState){
             $('#btn-end').prop("disabled", false);
             $('#btn-end').css("background-color", "#DDDD00");
             adjustScoreBar($("#correct-pct").text());
+            let audio_lose = new Audio('./sounds/fail.wav');
+            audio_lose.play();
             waitForNextWord(3);
             break;
         case states.NO_MORE_WORDS:
